@@ -1,0 +1,60 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="inbetween_space">8dp</dimen>
+    <dimen name="bs_icon_size">24dp</dimen>
+    <dimen name="bs_item_height">48dp</dimen>
+    <dimen name="bs_peek_height">56dp</dimen>
+    <dimen name="bs_header_text">20sp</dimen>
+    <dimen name="bs_item_text">18sp</dimen>
+    <dimen name="cardview_default_radius">10dp</dimen>
+
+
+
+
+
+    <dimen name="_200sdp">440.0dip</dimen>
+    <dimen name="font_10sp">10sp</dimen>
+    <dimen name="font_12sp">12sp</dimen>
+
+
+
+
+    <dimen name="font_10">10sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_13">13sp</dimen>
+
+    <dimen name="font_15">15sp</dimen>
+
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_22">22sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="view_height_45">45dp</dimen>
+    <dimen name="view_height_40">40dp</dimen>
+    <dimen name="view_height_50">50dp</dimen>
+    <dimen name="view_height_80">80dp</dimen>
+    <dimen name="view_height_01">0.5dp</dimen>
+    <dimen name="view_height_01_">01dp</dimen>
+
+
+    <dimen name="view_height">40dp</dimen>
+    <dimen name="margin_micro">02dp</dimen>
+    <dimen name="margin_mini">04dp</dimen>
+    <dimen name="margin_small">08dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_extra_large">64dp</dimen>
+    <dimen name="font">12.5sp</dimen>
+
+    <dimen name="padding_small">08dp</dimen>
+
+</resources>

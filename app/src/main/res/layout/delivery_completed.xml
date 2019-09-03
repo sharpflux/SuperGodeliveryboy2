@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12.0dip"
+            android:fontFamily="@font/sfui_text_regular"
+            android:lineSpacingExtra="3.0dip"
+            android:text="@string/verification_code_subtext"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16.5sp" />
+
+        <LinearLayout
+            android:id="@+id/pin_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="17.099976dip"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/pin_first_edittext"
+                style="@style/pin_edittext_style"
+                android:layout_width="wrap_content"
+                android:layout_height="45.0dip"
+                android:background="@drawable/rectangle_grayboder"
+                android:contentDescription="@string/pin_content_desc" />
+
+            <EditText
+                android:id="@+id/pin_second_edittext"
+                style="@style/pin_edittext_style"
+                android:layout_width="wrap_content"
+                android:layout_height="45.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:background="@drawable/rectangle_grayboder"
+                android:contentDescription="@string/pin_content_desc" />
+
+            <EditText
+                android:id="@+id/pin_third_edittext"
+                style="@style/pin_edittext_style"
+                android:layout_width="wrap_content"
+                android:layout_height="45.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:background="@drawable/rectangle_grayboder"
+                android:contentDescription="@string/pin_content_desc" />
+
+            <EditText
+                android:id="@+id/pin_forth_edittext"
+                style="@style/pin_edittext_style"
+                android:layout_width="wrap_content"
+                android:layout_height="45.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:background="@drawable/rectangle_grayboder"
+                android:contentDescription="@string/pin_content_desc" />
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/pin_hidden_edittext"
+            android:layout_width="1.0dip"
+            android:layout_height="1.0dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:contentDescription="@string/pin_content_desc"
+            android:cursorVisible="false"
+            android:gravity="center_horizontal"
+            android:maxLength="5"
+            android:textColor="#00000000" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12.0dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfui_text_regular"
+
+                android:text="@string/didn_t_get_the_otp"
+                android:textColor="@color/silver"
+                android:textSize="14.5sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5.0dip"
+                android:fontFamily="@font/sfui_text_regular"
+
+                android:text="@string/resendtxt"
+                android:textColor="@color/black"
+                android:textSize="14.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnValidate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:height="60dp"
+            android:background="@drawable/btn_plain"
+            android:text="VALIDATE AND COMPLETE DELIVERY"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

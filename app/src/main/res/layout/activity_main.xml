@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+   >
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="90dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:id="@+id/locationicon"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="pickup.json"
+            app:lottie_loop="true" />
+        <TextView
+            android:id="@+id/txtPickFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:drawablePadding="0dp"
+            android:text="PICK UP FROM"
+            android:padding="10dp"
+            android:textSize="13.5sp"
+            android:gravity="center_horizontal"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:text="Location Name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12.5sp"
+            android:layout_below="@id/txtPickFrom"
+            android:layout_alignParentLeft="false"
+            android:layout_marginTop="35dp"
+            />
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+<LinearLayout
+    android:background="@android:color/white"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+</LinearLayout>
+
+</LinearLayout>

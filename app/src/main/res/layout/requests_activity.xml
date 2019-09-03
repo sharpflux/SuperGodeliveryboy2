@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ddd"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+
+        android:orientation="vertical"
+        android:background="@drawable/rectangle_whitetop_cure"
+        android:paddingBottom="16.599976dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16.699982dip"
+            android:layout_marginTop="14.799988dip"
+            android:layout_marginRight="16.699982dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sfui_text_regular"
+                    android:letterSpacing="0.0525"
+                    android:text="Distance"
+                    android:textColor="@color/silver"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/txtDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sfui_text_regular"
+                    android:letterSpacing="0.0525"
+
+                    android:textColor="@color/black"
+                    android:textSize="17.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1.0dip"
+                android:layout_height="fill_parent"
+                android:background="@color/viewline" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sfui_text_regular"
+                    android:letterSpacing="0.0525"
+                    android:text="Time"
+                    android:textColor="@color/silver"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/txtDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sfui_text_regular"
+                    android:letterSpacing="0.0525"
+                    android:text="20 min"
+                    android:textColor="@color/black"
+                    android:textSize="17.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1.0dip"
+                android:layout_height="fill_parent"
+                android:background="@color/viewline" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sfui_text_regular"
+                    android:letterSpacing="0.0525"
+                    android:text="Total amount"
+                    android:textColor="@color/silver"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/cardview_rupees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sfui_text_regular"
+                    android:letterSpacing="0.0525"
+
+                    android:textColor="@color/black"
+                    android:textSize="17.0sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:background="@color/viewline"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:layout_marginLeft="16.699982dip"
+            android:layout_marginTop="16.799988dip"
+            android:layout_marginRight="16.699982dip" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16.699982dip"
+            android:layout_marginTop="15.0dip"
+            android:layout_marginRight="16.699982dip">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_weight="1.0">
+                        <TextView
+
+                            android:textSize="17.0sp"
+                            android:textColor="@color/silver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pickup_address"
+                            android:fontFamily="@font/sfui_text_regular"
+                            android:letterSpacing="0.0525" />
+                        <TextView
+                            android:id="@+id/pickup_location"
+                            android:textSize="14.5sp"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7.0dip"
+                            android:text="@string/dinesh_roadtxt"
+                            android:lineSpacingExtra="2.0dip"
+                            android:fontFamily="@font/sfui_text_regular"
+                            android:letterSpacing="0.0525" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:id="@+id/direction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/circle_green" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:background="@color/viewline"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:layout_marginLeft="16.699982dip"
+            android:layout_marginTop="16.799988dip"
+            android:layout_marginRight="16.699982dip" />
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
