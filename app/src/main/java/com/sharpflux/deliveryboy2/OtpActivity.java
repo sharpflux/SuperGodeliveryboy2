@@ -15,6 +15,7 @@ public class OtpActivity extends AppCompatActivity {
     private EditText enterOTPCodeEt;
     private TextView verifyButton;
     String otp = "", enteredOtp = "";
+    Integer UserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,23 +24,25 @@ public class OtpActivity extends AppCompatActivity {
         verifyButton = findViewById(R.id.verifyButton);
 
         enterOTPCodeEt = findViewById(R.id.enterOTPCodeEt);
-
-        bundle = getIntent().getExtras();
         builder = new AlertDialog.Builder(this);
+        bundle = getIntent().getExtras();
+
         if (bundle != null) {
-           otp=bundle.getString("otp");
+            otp = bundle.getString("otp");
+            UserId = bundle.getInt("UserId");
 
         }
-            verifyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    enteredOtp = enterOTPCodeEt.getText().toString();
-                    if (otp.equals(enteredOtp)) {
-                        Intent in = new Intent(OtpActivity.this, ResetPasswordActivity.class);
-                        startActivity(in);
 
-                } else
-
+        verifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enteredOtp = enterOTPCodeEt.getText().toString();
+                if (otp.equals(enteredOtp)) {
+                    Intent in = new Intent(OtpActivity.this, ResetPasswordActivity.class);
+                    in.putExtra("UserId", UserId.toString());
+                    startActivity(in);
+                }
+                else
                 {
                     builder.setMessage("Enter valid otp")
                             .setCancelable(false)
@@ -57,7 +60,7 @@ public class OtpActivity extends AppCompatActivity {
                     alert.show();
                 }
             }
-            });
+        });
         }
     }
 

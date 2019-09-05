@@ -15,4 +15,6 @@ public class URLs {
     public static final String URL_LOCATIONUPDATE="http://admin.supergo.in/api/Location/LocationUpdate";
     public static final String URL_SENNOTIFICATIONTOCUSTOMER="http://admin.supergo.in/api/notfiy/notfiyToCustomer";
     public static final String URL_GETONGOINGDELIVERY="http://admin.supergo.in/api/GetOngoingDelivery?DeliveryBoyId=";
+    public static final String URL_RESETPASS="http://admin.supergo.in/api/User/ChangePassword";
+
 }
