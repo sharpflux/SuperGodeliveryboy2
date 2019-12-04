@@ -355,7 +355,7 @@
     <string name="alok_flat_near_main_station_new_ajar_nvadodara">"Alok Flat, near Main station, new ajar
 vadodara"</string>
     <string name="amazon_pay">Amazon Pay</string>
-    <string name="app_name">GORideApplication</string>
+    <string name="app_name">SuperGo Partner</string>
     <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="apply_promocode">Apply Promocode</string>
     <string name="avl_bl_rp_500">Avl bl. Rp. 500</string>
@@ -491,6 +491,8 @@ on vehicle keypad and start the ride."</string>
     <string name="t_amp_c"><u>T &amp; C</u></string>
     <string name="terms_of_uses">Terms of Uses</string>
     <string name="title_activity_map_root">Map</string>
+
+ 
 
     <string name="to_pay">To Pay</string>
     <string name="total">Total</string>

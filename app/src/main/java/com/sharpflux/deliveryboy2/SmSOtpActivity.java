@@ -56,6 +56,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         editText_two.addTextChangedListener(this);
         editText_three.addTextChangedListener(this);
         editText_four.addTextChangedListener(this);
+        editText_one.setFocusable(true);
         SendOTP();
         builder = new AlertDialog.Builder(this);
         btnValidate.setOnClickListener(new View.OnClickListener() {
@@ -285,7 +286,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
                 Map<String, String> params = new HashMap<>();
                 params.put("DeliveryId", deliveryidobj);
                 params.put("CustomerId", customerIdobj);
-                params.put("vehicleType", "3");
+                params.put("vehicleType", "4");
                 return params;
             }
         };

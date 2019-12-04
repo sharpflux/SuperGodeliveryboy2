@@ -9,10 +9,6 @@
     tools:showIn="@layout/app_bar_nav"
     android:id="@+id/pullToRefresh">
 
-
-
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recylcerView1"
         android:layout_width="match_parent"

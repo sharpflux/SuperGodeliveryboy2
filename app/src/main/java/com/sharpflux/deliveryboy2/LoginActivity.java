@@ -2,10 +2,12 @@ package com.sharpflux.deliveryboy2;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -68,7 +70,9 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userLogin();
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                String sleepTime = "1";
+                runner.execute(sleepTime);
             }
         });
 
@@ -283,5 +287,48 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
 
+        private String resp;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Sleeping..."); // Calls onProgressUpdate()
+            try {
+                int time = Integer.parseInt(params[0]) * 1000;
+                userLogin();
+                Thread.sleep(time);
+                resp = "Slept for " + params[0] + " seconds";
+            } catch (Exception e) {
+                e.printStackTrace();
+                resp = e.getMessage();
+            }
+            return resp;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            // execution of result of Long time consuming operation
+            progressDialog.dismiss();
+            // finalResult.setText(result);
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(LoginActivity.this,
+                    "Loading...",
+                    "Wait for result..");
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+            // finalResult.setText(text[0]);
+
+        }
+
+    }
 }

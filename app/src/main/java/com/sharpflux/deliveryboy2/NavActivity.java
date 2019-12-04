@@ -1,19 +1,30 @@
 package com.sharpflux.deliveryboy2;
 
+import android.app.KeyguardManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +36,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,7 +88,7 @@ public class NavActivity extends AppCompatActivity
     RecyclerView recyclerView;
 
     private ProgressBar spinner;
-
+    ProgressDialog mProgressDialog;
 
     private DeliveryMainAdapter mAdapter;
     TextView navBarName, navMobileNumber;
@@ -107,11 +120,32 @@ public class NavActivity extends AppCompatActivity
             }
         });*/
 
+        // builder.append("<?xml version=\"1.0\" ?>");
+        // Initialize the progress dialog
+        mProgressDialog = new ProgressDialog(NavActivity.this);
+        mProgressDialog.setIndeterminate(false);
+        // Progress dialog horizontal style
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // Progress dialog title
+        mProgressDialog.setTitle("Loading Data..");
+        // Progress dialog message
+        mProgressDialog.setMessage("Please wait, we are loading your data...");
+
+
+     /*   Intent startIntent = new Intent(getApplicationContext(), BackgroundService.class);
+        startIntent.setAction("MyService");
+        startService(startIntent);*/
+
+
+
         setContentView(R.layout.activity_nav);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+
+
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -120,6 +154,14 @@ public class NavActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        ////////////////
+        //getting the recyclerview from xml
+        recyclerView = findViewById(R.id.recylcerView1);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //initializing the productlist
+        productList = new ArrayList<DeliveryList>();
 
 
         View header = navigationView.getHeaderView(0);
@@ -138,6 +180,9 @@ public class NavActivity extends AppCompatActivity
 
         pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh);
 
+
+
+
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             int Refreshcounter = 1; //Counting how many times user have refreshed the layout
 
@@ -149,20 +194,15 @@ public class NavActivity extends AppCompatActivity
                 DeliveryMainAdapter adapter = new DeliveryMainAdapter(getApplicationContext(), productList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-                loadProducts();
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                String sleepTime = "1";
+                runner.execute(sleepTime);
                 pullToRefresh.setRefreshing(false);
+                GetOngoingDelivery();
             }
         });
 
-
-        ////////////////
-        //getting the recyclerview from xml
-        recyclerView = findViewById(R.id.recylcerView1);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //initializing the productlist
-        productList = new ArrayList<DeliveryList>();
+        GetOngoingDelivery();
 
         //  mAdapter.setClickListener(this);
 
@@ -178,6 +218,12 @@ public class NavActivity extends AppCompatActivity
         String sleepTime = "1";
         runner.execute(sleepTime);
 
+        ViewPager vp_pages= (ViewPager) findViewById(R.id.vp_pages);
+        PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
+        vp_pages.setAdapter(pagerAdapter);
+
+        TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
+        tbl_pages.setupWithViewPager(vp_pages);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -201,6 +247,57 @@ public class NavActivity extends AppCompatActivity
                 });
 
 
+    }
+
+    private void pushAppToForground() {
+        if (!MyApplication.isActivityVisible()) {
+            Log.e("TAG", "callFragWithDelay:  available********");
+            Intent intent = new Intent(this, NavActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        KeyguardManager myKM = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
+        if (myKM.inKeyguardRestrictedInputMode()) {
+
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+    }
+    class FragmentAdapter extends FragmentPagerAdapter {
+
+        public FragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new HomeFragment();
+                case 1:
+                    return new HomeFragment();
+
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                //
+                //Your tab titles
+                //
+                case 0:return "Active Trips";
+                case 1:return "History";
+
+                default:return null;
+            }
+        }
     }
 
     @Override
@@ -355,6 +452,7 @@ public class NavActivity extends AppCompatActivity
 
     private void GetOngoingDelivery() {
 
+        int deliveryBoyIds=deliveryBoyId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 URLs.URL_GETONGOINGDELIVERY + deliveryBoyId,
                 new Response.Listener<String>() {
@@ -433,6 +531,8 @@ public class NavActivity extends AppCompatActivity
                     @Override
                     public void onResponse(String response) {
                         try {
+
+                          //  mProgressDialog.dismiss();
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
 
@@ -550,6 +650,7 @@ public class NavActivity extends AppCompatActivity
         return url;
     }
 
+
     private class AsyncTaskRunner extends AsyncTask<String, String, String> {
 
         private String resp;
@@ -560,7 +661,6 @@ public class NavActivity extends AppCompatActivity
             publishProgress("Sleeping..."); // Calls onProgressUpdate()
             try {
                 int time = Integer.parseInt(params[0]) * 1000;
-                GetOngoingDelivery();
                 loadProducts();
                 Thread.sleep(time);
                 resp = "Slept for " + params[0] + " seconds";
@@ -575,22 +675,22 @@ public class NavActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
             // finalResult.setText(result);
         }
 
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(NavActivity.this,
-                    "Loading...",
-                    "Wait for result..");
+//            mProgressDialog.show();
         }
 
 
         @Override
         protected void onProgressUpdate(String... text) {
             // finalResult.setText(text[0]);
+
+           // mProgressDialog.setProgress(92);
 
         }
 

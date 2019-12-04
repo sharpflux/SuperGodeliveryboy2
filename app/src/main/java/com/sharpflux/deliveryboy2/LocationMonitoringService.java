@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -25,12 +23,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.microsoft.signalr.HubConnection;
-import com.microsoft.signalr.HubConnectionBuilder;
-import android.support.v7.app.AppCompatActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,22 +37,25 @@ public class LocationMonitoringService extends Service implements
     GoogleApiClient mLocationClient;
     LocationRequest mLocationRequest = new LocationRequest();
     HubConnection hubConnection;
-    Timer timer ;
+    Timer timer;
     public static final String ACTION_LOCATION_BROADCAST = LocationMonitoringService.class.getName() + "LocationBroadcast";
     public static final String EXTRA_LATITUDE = "extra_latitude";
     public static final String EXTRA_LONGITUDE = "extra_longitude";
     public int deliveryId;
-    public  String LatLong;
+    public String LatLong;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
-        if(intent!=null) {
-            bundle =  intent.getExtras();
+        if (intent != null) {
+            bundle = intent.getExtras();
             if (bundle != null) {
                 deliveryId = bundle.getInt("DeliveryId");
-            }
-        }
+            } else
+                deliveryId = 0;
+        } else
+            deliveryId = 0;
        /* hubConnection = HubConnectionBuilder.create("http://13.234.164.233:9922/chat").build();
         new HubConnectionTask().execute(hubConnection);*/
         timer = new Timer();
@@ -73,13 +68,12 @@ public class LocationMonitoringService extends Service implements
         mLocationRequest.setInterval(Constants.LOCATION_INTERVAL);
         mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
 
-      timer.schedule(new TimerTask()
-       {
-          public void run()
-         {
-                SendLocation(LatLong);
-          }},4000,10000
-      );
+        timer.schedule(new TimerTask() {
+                           public void run() {
+                               SendLocation(LatLong);
+                           }
+                       }, 4000, 10000
+        );
         int priority = LocationRequest.PRIORITY_HIGH_ACCURACY; //by default
         //PRIORITY_BALANCED_POWER_ACCURACY, PRIORITY_LOW_POWER, PRIORITY_NO_POWER are the other priority modes
         mLocationRequest.setPriority(priority);
@@ -144,9 +138,9 @@ public class LocationMonitoringService extends Service implements
 
     private void sendMessageToUI(String lat, String lng) {
 
-        Log.d(TAG, "Sending info..." +lat+" Long "+lng);
-        SendLocation(lat + "," + lng);
-        //LatLong=lat + "," + lng;
+        Log.d(TAG, "Sending info..." + lat + " Long " + lng);
+        //SendLocation(lat + "," + lng);
+        LatLong = lat + "," + lng;
 
 
        /* if(hubConnection.getConnectionState().toString().equals("CONNECTED")) {
@@ -180,30 +174,39 @@ public class LocationMonitoringService extends Service implements
             return null;
         }
     }
-    Bundle bundle;
-    private void SendLocation(final  String latLong) {
-        String k = latLong;
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_LOCATIONUPDATE,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("DeliveryId", String.valueOf(deliveryId));
-                params.put("LatLong",latLong.trim());
-                return params;
-            }
-        };
-        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    Bundle bundle;
+
+    private void SendLocation(final String latLong) {
+        String k = latLong;
+
+        if (deliveryId != 0) {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_LOCATIONUPDATE,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("DeliveryId", String.valueOf(deliveryId));
+                    params.put("LatLong", latLong.trim());
+                    return params;
+                }
+            };
+            VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+        }
+        else
+        {
+            Log.d("Message", "Delivery Id is not found");
+        }
     }
 }

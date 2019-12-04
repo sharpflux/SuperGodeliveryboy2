@@ -76,7 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         acceptRequest = findViewById(R.id.buttonAcceptRequest);
 
         arrowback = findViewById(R.id.arrow_back_img);
-         user = SharedPrefManager.getInstance(this).getUser();
+
+        user = SharedPrefManager.getInstance(this).getUser();
 
         arrowback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -463,7 +464,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     intent.putExtra("DeliveryId", bundle.getInt("DeliveryId"));
                                     startService(intent);
 
-                                    Notification(bundle.getString("CustomerId"));
+                                    //Notification(bundle.getString("CustomerId"));
 
                                     Intent callin = new Intent(MapsActivity.this, CallCustomerActivity.class);
                                     callin.putExtra("Duration", bundle.getString("Duration"));
@@ -505,7 +506,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Map<String, String> params = new HashMap<>();
                 params.put("DeliveryId", deliveryidobj);
                 params.put("CustomerId", customerIdobj);
-                params.put("vehicleType", "1");//statusid
+                params.put("vehicleType", "3");//statusid
                 return params;
             }
         };
