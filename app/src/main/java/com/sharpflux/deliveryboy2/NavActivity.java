@@ -275,7 +275,7 @@ public class NavActivity extends AppCompatActivity
                 case 0:
                     return new HomeFragment();
                 case 1:
-                    return new HomeFragment();
+                    return new HistoryFragment();
 
             }
             return null;
@@ -365,8 +365,8 @@ public class NavActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_order) {
 
-            // Intent oin = new Intent(ChooseActionActivity.this,MyOrderListActivity.class);
-            // startActivity(oin);
+             Intent oin = new Intent(NavActivity.this,MyOrderListActivity.class);
+             startActivity(oin);
 /*
             Fragment fragment = null;
             fragment = new OrderFragment();

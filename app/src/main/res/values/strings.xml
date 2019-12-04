@@ -10,9 +10,6 @@
     <string name="action_settings">Settings</string>
 
 
-
-
-
     <string name="reset_password">RESET PASSWORD</string>
     <string name="reset_password_button">Reset Password</string>
     <string name="netwrokr_error">No internet connection!</string>
@@ -492,7 +489,6 @@ on vehicle keypad and start the ride."</string>
     <string name="terms_of_uses">Terms of Uses</string>
     <string name="title_activity_map_root">Map</string>
 
- 
 
     <string name="to_pay">To Pay</string>
     <string name="total">Total</string>

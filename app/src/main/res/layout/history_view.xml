@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+      <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="11.7dp"
+       android:background="@color/white"
+       android:elevation="1dp"
+       android:id="@+id/paymentLayout"
+       android:orientation="vertical"
+       android:paddingBottom="11.3dp"
+       android:paddingTop="15.7dp">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="10.7dp"
+           android:layout_marginStart="15dp"
+           android:text="Pay Outs"
+           android:textColor="#000000"
+           android:fontFamily="@font/sfpro_display_bold"
+           android:textSize="15sp" />
+
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="0.3dp"
+           android:background="@color/colorPrimary" />
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="13.3dp"
+           android:orientation="horizontal"
+           android:paddingEnd="12.7dp"
+           android:paddingStart="15dp">
+
+           <TextView
+               android:id="@+id/txtItemCount"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_weight="1"
+               android:text="Total Earn"
+               android:textColor="#000000"
+               android:textSize="13.3sp" />
+
+           <TextView
+               android:id="@+id/txt_total"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:text="Rs 678"
+               android:fontFamily="@font/sfpro_display_bold"
+               android:textColor="#707070"
+               android:textSize="13.3sp" />
+
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="11.3dp"
+           android:orientation="horizontal"
+           android:paddingEnd="12.7dp"
+           android:paddingStart="15dp">
+
+           <TextView
+
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_weight="1"
+               android:text="From Date"
+               android:textColor="#000000"
+               android:textSize="13.3sp" />
+
+           <TextView
+               android:id="@+id/txt_fromDate"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:text="764-54-55"
+               android:textColor="#000000"
+               android:textSize="13.3sp" />
+
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="11.3dp"
+           android:orientation="horizontal"
+           android:paddingEnd="12.7dp"
+           android:paddingStart="15dp">
+
+           <TextView
+               android:layout_width="375dp"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_weight="1"
+               android:text="To Date"
+               android:textColor="#000000"
+               android:textSize="13.3sp" />
+
+           <TextView
+               android:id="@+id/txt_toDate"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:text="684-438903"
+               android:textColor="#000000"
+               android:textSize="13.3sp" />
+
+
+       </LinearLayout>
+
+
+
+
+   </LinearLayout>
+</RelativeLayout>

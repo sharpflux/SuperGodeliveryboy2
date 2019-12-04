@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+   <!-- <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp">
+
+                <TextView
+                    android:id="@+id/tvOrderId1"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:fontFamily="@font/sfpro_display_medium"
+                    android:letterSpacing="0.0525"
+                    android:text="ORDER ID :"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17.0sp" />
+                <TextView
+                    android:id="@+id/tv_OrderId"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:fontFamily="@font/sfpro_display_medium"
+                    android:letterSpacing="0.0525"
+                    android:text="2525"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17.0sp" />
+
+                <TextView
+                    android:id="@+id/tv_Status1"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:fontFamily="@font/sfpro_display_medium"
+                    android:letterSpacing="0.0525"
+                    android:text="In Progress"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/orange"
+                    android:textSize="17.0sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.7dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sfpro_display_regular"
+                        android:letterSpacing="0.0525"
+                        android:text="@string/distance"
+                        android:textColor="@color/silver"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_Distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sfpro_display_medium"
+                        android:letterSpacing="0.0525"
+                        android:text="5 kms"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/viewline" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sfpro_display_regular"
+                        android:letterSpacing="0.0525"
+                        android:text="@string/wait_time"
+                        android:textColor="@color/silver"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_Duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sfpro_display_medium"
+                        android:letterSpacing="0.0525"
+                        android:text="20 min"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/viewline" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sfpro_display_regular"
+                        android:letterSpacing="0.0525"
+                        android:text="@string/total"
+                        android:textColor="@color/silver"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalCharges"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/sfpro_display_medium"
+                        android:letterSpacing="0.0525"
+                        android:text="@string/_13"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5.0dip"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="10.0dip">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16.699982dip"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10.0dip"
+                        android:src="@drawable/circle_red" />
+
+                    <LinearLayout
+                        android:layout_width="1.0dip"
+                        android:layout_height="50.0dip"
+                        android:layout_gravity="center"
+                        android:background="@drawable/dotted_linegray"
+                        android:layerType="software"
+                        android:orientation="vertical" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/circle_green" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10.0dip"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.0"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_pickup_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8.0dip"
+                                android:fontFamily="@font/sfpro_display_medium"
+                                android:letterSpacing="0.0525"
+                                android:text="Swargate,Pune,411037"
+                                android:textColor="@color/black"
+                                android:textSize="15.0sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10.0dip"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.0"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/drop_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="50dip"
+                                android:fontFamily="@font/sfpro_display_medium"
+                                android:letterSpacing="0.0525"
+                                android:text="Swargate,Pune,411037"
+                                android:textColor="@color/black"
+                                android:visibility="gone"
+                                android:textSize="15.0sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_marginTop="38dip"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_Drop_location"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:fontFamily="@font/sfpro_display_medium"
+                                android:letterSpacing="0.0525"
+                                android:text="Swargate,Pune,411037"
+                                android:textColor="@color/black"
+                                android:textSize="15.0sp"  />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.8000001dip"
+                android:layout_marginLeft="16.699982dip"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="16.699982dip"
+                android:background="@color/viewline" />
+        </LinearLayout>
+    </ScrollView>-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pullToRefresh"
+        >
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/myOrdersRecyView"
+        android:paddingTop="1dp"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

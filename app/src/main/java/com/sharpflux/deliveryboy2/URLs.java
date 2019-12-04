@@ -16,4 +16,8 @@ public class URLs {
     public static final String URL_SENNOTIFICATIONTOCUSTOMER="http://admin.supergo.in/api/notfiy/notfiyToCustomer";
     public static final String URL_GETONGOINGDELIVERY="http://admin.supergo.in/api/GetOngoingDelivery?DeliveryBoyId=";
     public static final String URL_RESETPASS="http://admin.supergo.in/api/User/ChangePassword";
+    public static final String URL_ORDER_HISTORY="http://admin.supergo.in/api/DeliveryBoysPayOutAPI/DeliveryBoysPayOutGetApi?";
+    public static final String URL_ORDER="http://admin.supergo.in/api/DeliveryRequestDATAApi/DeliveriesGETApi?";
 }
+
+
