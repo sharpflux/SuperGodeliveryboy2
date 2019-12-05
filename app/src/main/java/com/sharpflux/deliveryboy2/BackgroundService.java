@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -141,6 +142,8 @@ public class BackgroundService extends Service {
             public void run() {
                 Log.i("Count", "=========  "+ (counter++));
                 SendLocation(String.valueOf(counter++));
+
+
             }
         };
         timer.schedule(timerTask, 1000, 1000); //
@@ -160,16 +163,9 @@ public class BackgroundService extends Service {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                           // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-
-                           /* mMediaPlayer =  MediaPlayer.create(getApplication(), R.raw.ring_tone_final);
-                            mHashMap.put("68545",mMediaPlayer);
-                            //    Log.e(TAG, "notifyDriver: *** mMediaPlayer "+mMediaPlayer );
-
-                            Log.e("TAG", "notifyDriver: from Asset"+mMediaPlayer );
-                            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                            mMediaPlayer.setLooping(true);
-                            mMediaPlayer.start();*/
+                            Toast.makeText(getApplicationContext(), latLong, Toast.LENGTH_SHORT).show();
+                            //StartRingtone("6859");
+                            startForeground();
                         }
                     },
                     new Response.ErrorListener() {
@@ -181,7 +177,7 @@ public class BackgroundService extends Service {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("DeliveryId", String.valueOf(deliveryId));
+                    params.put("DeliveryId", String.valueOf("9999"));
                     params.put("LatLong", latLong.trim());
                     return params;
                 }
@@ -206,5 +202,16 @@ public class BackgroundService extends Service {
 
 
     }
+    private void StartRingtone(String DeliveryId)
+    {
+        mMediaPlayer =  MediaPlayer.create(getApplication(), R.raw.ring_tone_final);
+        mHashMap.put(DeliveryId,mMediaPlayer);
+        Log.e("TAG", "notifyDriver: from Asset"+mMediaPlayer );
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mMediaPlayer.setLooping(true);
+        mMediaPlayer.start();
+    }
+
+
 
 }

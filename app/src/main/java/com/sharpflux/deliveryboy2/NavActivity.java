@@ -133,9 +133,9 @@ public class NavActivity extends AppCompatActivity
         mProgressDialog.setMessage("Please wait, we are loading your data...");
 
 
-     /*   Intent startIntent = new Intent(getApplicationContext(), BackgroundService.class);
+        Intent startIntent = new Intent(getApplicationContext(), BackgroundService.class);
         startIntent.setAction("MyService");
-        startService(startIntent);*/
+        startService(startIntent);
 
 
 
