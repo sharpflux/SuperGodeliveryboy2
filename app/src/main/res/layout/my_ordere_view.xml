@@ -61,110 +61,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16.7dp"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/sfpro_display_regular"
-                            android:letterSpacing="0.0525"
-                            android:text="@string/distance"
-                            android:textColor="@color/silver"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/tv_Distance1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/sfpro_display_medium"
-                            android:letterSpacing="0.0525"
-                            android:text="5 kms"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/viewline" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/sfpro_display_regular"
-                            android:letterSpacing="0.0525"
-                            android:text="@string/wait_time"
-                            android:textColor="@color/silver"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/tv_Duration1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/sfpro_display_medium"
-                            android:letterSpacing="0.0525"
-                            android:text="20 min"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/viewline" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/sfpro_display_regular"
-                            android:letterSpacing="0.0525"
-                            android:text="@string/total"
-                            android:textColor="@color/silver"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/tv_TotalCharges2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/sfpro_display_medium"
-                            android:letterSpacing="0.0525"
-                            android:text="@string/_13"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5.0dip"
@@ -289,6 +185,198 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="16.7dp"
+                     android:background="@color/white"
+                     android:orientation="horizontal"
+                     android:paddingTop="2dp"
+                     android:id="@+id/lr_one"
+                     android:paddingBottom="2dp">
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:orientation="vertical">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_regular"
+                             android:letterSpacing="0.0525"
+                             android:text="Total"
+                             android:textColor="@color/silver"
+                             android:textSize="13sp" />
+
+                         <TextView
+                             android:id="@+id/tv_TotalCharges3"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_medium"
+                             android:letterSpacing="0.0525"
+                             android:text="5 kms"
+                             android:textColor="@color/black"
+                             android:textSize="17sp" />
+                     </LinearLayout>
+
+                     <View
+                         android:layout_width="1dp"
+                         android:layout_height="match_parent"
+                         android:background="@color/viewline" />
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:orientation="vertical">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_regular"
+                             android:letterSpacing="0.0525"
+                             android:text="Company Comm."
+                             android:textColor="@color/silver"
+                             android:textSize="13sp" />
+
+                         <TextView
+                             android:id="@+id/tv_Comm"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_medium"
+                             android:letterSpacing="0.0525"
+                             android:text="20 min"
+                             android:textColor="@color/black"
+                             android:textSize="17sp" />
+                     </LinearLayout>
+
+                     <View
+                         android:layout_width="1dp"
+                         android:layout_height="match_parent"
+                         android:background="@color/viewline" />
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:orientation="vertical">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_bold"
+                             android:letterSpacing="0.0525"
+                             android:text="Your Earning"
+                             android:textColor="@color/silver"
+                             android:textSize="13sp" />
+
+                         <TextView
+                             android:id="@+id/tv_boyEarn"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                            android:fontFamily="@font/sfpro_display_bold"
+                             android:letterSpacing="0.0525"
+                             android:text="@string/_13"
+                             android:textColor="@color/orange"
+                             android:textSize="17sp" />
+                     </LinearLayout>
+                 </LinearLayout>
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="16.7dp"
+                     android:background="@color/white"
+                     android:orientation="horizontal"
+                     android:paddingTop="2dp"
+                     android:layout_below="@+id/lr_one"
+
+                     android:paddingBottom="2dp">
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:orientation="vertical">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_regular"
+                             android:letterSpacing="0.0525"
+                             android:text="@string/distance"
+                             android:textColor="@color/silver"
+                             android:textSize="13sp" />
+
+                         <TextView
+                             android:id="@+id/tv_Distance3"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_medium"
+                             android:letterSpacing="0.0525"
+                             android:text="5 kms"
+                             android:textColor="@color/black"
+                             android:textSize="17sp" />
+                     </LinearLayout>
+
+                     <View
+                         android:layout_width="1dp"
+                         android:layout_height="match_parent"
+                         android:background="@color/viewline" />
+
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:orientation="vertical">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_regular"
+                             android:letterSpacing="0.0525"
+                             android:text="@string/wait_time"
+                             android:textColor="@color/silver"
+                             android:textSize="13sp" />
+
+                         <TextView
+                             android:id="@+id/tv_Duration2"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/sfpro_display_medium"
+                             android:letterSpacing="0.0525"
+                             android:text="20 min"
+                             android:textColor="@color/black"
+                             android:textSize="17sp" />
+                     </LinearLayout>
+
+                     <View
+                         android:layout_width="1dp"
+                         android:layout_height="match_parent"
+                         android:background="@color/viewline" />
+
+
+                 </LinearLayout>
+
+             </RelativeLayout>
 
 
 

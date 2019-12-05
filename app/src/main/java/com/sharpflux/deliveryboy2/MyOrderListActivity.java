@@ -30,9 +30,11 @@ import java.util.Map;
 
 public class MyOrderListActivity extends AppCompatActivity {
 
-    private RecyclerView myOrdersRecyView;
+    RecyclerView myOrdersRecyView;
     MyOrderModel order;
-    MyOrderAdapter myOrdersAdapter;
+    MyOrdersAdapter myOrdersAdapter;
+    SwipeRefreshLayout pullToRefresh;
+    boolean isLoading = false;
     private ArrayList<MyOrderModel> activityListModelArrayList;
 
     int deliveryBoyId = 0;
@@ -44,6 +46,8 @@ public class MyOrderListActivity extends AppCompatActivity {
 
         myOrdersRecyView = findViewById(R.id.myOrdersRecyView);
         activityListModelArrayList = new ArrayList<>();
+        pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh);
+
 
         LinearLayoutManager layoutManager3 = new GridLayoutManager(MyOrderListActivity.this,1);
         myOrdersRecyView.setLayoutManager(layoutManager3);
@@ -53,7 +57,55 @@ public class MyOrderListActivity extends AppCompatActivity {
         MyOrderListActivity.AsyncTaskRunner runner = new MyOrderListActivity.AsyncTaskRunner();
         String sleepTime = "1";
         runner.execute(sleepTime);
+
+
+        initAdapter();
+        myOrdersRecyView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager3) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                isLoading = true;
+                initAdapter();
+                int currentSize = myOrdersAdapter.getItemCount();
+
+
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                String sleepTime = String.valueOf(page+1);
+                runner.execute(sleepTime);
+
+            }
+        });
+
+
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            int Refreshcounter = 1; //Counting how many times user have refreshed the layout
+
+            @Override
+            public void onRefresh() {
+
+                Refreshcounter = Refreshcounter + 1;
+                //  activityListModelArrayList.clear();
+                MyOrdersAdapter adapter = new MyOrdersAdapter(getApplicationContext(), activityListModelArrayList);
+                myOrdersRecyView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                String sleepTime = "1";
+                runner.execute(sleepTime);
+                pullToRefresh.setRefreshing(false);
+
+            }
+        });
+
+
     }
+
+
+    private void initAdapter() {
+        myOrdersAdapter = new MyOrdersAdapter(getApplicationContext(), activityListModelArrayList);
+        myOrdersRecyView.setAdapter(myOrdersAdapter);
+    }
+
     private void setDynamicFragmentToTabLayout() {
         User user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
         deliveryBoyId = user.getId();
@@ -75,18 +127,19 @@ public class MyOrderListActivity extends AppCompatActivity {
                                                 userJson.getString("Duration"),
                                                 userJson.getString("ApiTotalCharge"),
                                                 userJson.getString("pickupAddress"),
-                                                userJson.getString("deliveryAddress")
+                                                userJson.getString("deliveryAddress"),
+                                                userJson.getString("CompanyCommisionWithGst"),
+                                                userJson.getString("DeliveryBoyCommission")
+
                                         );
 
 
                                 activityListModelArrayList.add(order);
-
-
-                                myOrdersAdapter = new MyOrderAdapter(getApplicationContext(), activityListModelArrayList);
-                                myOrdersRecyView.setAdapter(myOrdersAdapter);
-
-
+                                /*myOrdersAdapter = new MyOrdersAdapter(getApplicationContext(), activityListModelArrayList);
+                                myOrdersRecyView.setAdapter(myOrdersAdapter);*/
                             }
+                            myOrdersAdapter.notifyDataSetChanged();
+                            isLoading = false;
 
                         } catch (JSONException e) {
                             e.printStackTrace();

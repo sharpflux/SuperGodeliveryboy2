@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-class MyOrderAdapter extends RecyclerView.Adapter<MyOrderHolder>  {
+class MyOrdersAdapter extends RecyclerView.Adapter<MyOrderHolder>  {
 
     private Context mContext;
     public String id;
@@ -22,7 +22,7 @@ class MyOrderAdapter extends RecyclerView.Adapter<MyOrderHolder>  {
 
     private ArrayList<MyOrderModel> mList;
 
-    public MyOrderAdapter(Context mContext, ArrayList<MyOrderModel> mList) {
+    public MyOrdersAdapter(Context mContext, ArrayList<MyOrderModel> mList) {
         this.mContext = mContext;
         this.mList = mList;
 
@@ -39,13 +39,18 @@ class MyOrderAdapter extends RecyclerView.Adapter<MyOrderHolder>  {
     @Override
     public void onBindViewHolder(MyOrderHolder holder, final int position) {
 
+
+
         holder.mOrderId.setText(mList.get(position).getOrderId());
         holder.mOrdereStatus.setText(mList.get(position).getOrderStatus());
         holder.mDistance.setText(mList.get(position).getDistace());
         holder.mDuration.setText(mList.get(position).getTime());
-        holder.mTotal.setText(mList.get(position).getTotal());
+        holder.mTotal.setText(mList.get(position).getTotal()+"₹");
         holder.mPick.setText(mList.get(position).getPickupAddress());
         holder.mDrop.setText(mList.get(position).getDropAddress());
+        holder.mComm.setText(mList.get(position).getCompanyCommission()+"₹");
+        holder.mBoyEarning.setText(mList.get(position).getDeliveryBoyCommission()+"₹");
+
 
 
 
@@ -64,7 +69,9 @@ class MyOrderAdapter extends RecyclerView.Adapter<MyOrderHolder>  {
 class MyOrderHolder extends RecyclerView.ViewHolder {
 
 
-    TextView mOrderId,mOrdereStatus,mDistance,mDuration,mTotal,mPick,mDrop;
+    TextView mOrderId,mOrdereStatus,mDistance,mDuration,mTotal,mPick,mDrop,mComm,mBoyEarning,mgstAmt;
+
+    String GstAmt;
     List<MyOrderModel> mlist;
 
     MyOrderHolder(View itemView) {
@@ -73,11 +80,13 @@ class MyOrderHolder extends RecyclerView.ViewHolder {
 
         mOrderId = itemView.findViewById(R.id.tv_OrderId1);
         mOrdereStatus = itemView.findViewById(R.id.tv_Status2);
-        mDistance = itemView.findViewById(R.id.tv_Distance1);
-        mDuration = itemView.findViewById(R.id.tv_Duration1);
-        mTotal = itemView.findViewById(R.id.tv_TotalCharges2);
+        mDistance = itemView.findViewById(R.id.tv_Distance3);
+        mDuration = itemView.findViewById(R.id.tv_Duration2);
+        mTotal = itemView.findViewById(R.id.tv_TotalCharges3);
         mPick = itemView.findViewById(R.id.txt_pickup_location1);
         mDrop= itemView.findViewById(R.id.tv_Drop_location1);
+        mComm= itemView.findViewById(R.id.tv_Comm);
+        mBoyEarning= itemView.findViewById(R.id.tv_boyEarn);
 
 
     }

@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -97,7 +98,7 @@ public class NavActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+        /*FirebaseMessaging.getInstance().subscribeToTopic("weather")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     String subs = "";
 
@@ -110,7 +111,7 @@ public class NavActivity extends AppCompatActivity
 
                         // Toast.makeText(MapsActivity.this, subs, Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
        /* FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( NavActivity.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
@@ -248,6 +249,21 @@ public class NavActivity extends AppCompatActivity
 
 
     }
+
+
+   /* public void startService(View v) {
+       String input= "Hey User";
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        serviceIntent.putExtra("inputExtra", input);
+
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    public void stopService(View v) {
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        stopService(serviceIntent);
+    }*/
+
 
     private void pushAppToForground() {
         if (!MyApplication.isActivityVisible()) {

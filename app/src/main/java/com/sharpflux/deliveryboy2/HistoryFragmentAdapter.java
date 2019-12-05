@@ -39,7 +39,7 @@ public class HistoryFragmentAdapter extends RecyclerView.Adapter<HistoryFragmenH
     @Override
     public void onBindViewHolder(HistoryFragmenHolder holder, final int position) {
 
-                     holder.mTotal.setText(mList.get(position).getTotalAmt());
+                     holder.mTotal.setText(mList.get(position).getTotalAmt()+"₹");
                      holder.mfromDate.setText(mList.get(position).getFromDate());
                      holder.mtoDate.setText(mList.get(position).getToDate());
 
