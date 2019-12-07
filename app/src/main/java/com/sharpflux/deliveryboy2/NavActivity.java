@@ -39,9 +39,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -137,6 +140,9 @@ public class NavActivity extends AppCompatActivity
         startIntent.setAction("MyService");
         startService(startIntent);*/
 
+       // switch1 = findViewById(R.id.switch1);
+      //  switch1.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+
 
 
         setContentView(R.layout.activity_nav);
@@ -192,14 +198,14 @@ public class NavActivity extends AppCompatActivity
 
                 Refreshcounter = Refreshcounter + 1;
                 productList.clear();
-                DeliveryMainAdapter adapter = new DeliveryMainAdapter(getApplicationContext(), productList);
+                /*DeliveryMainAdapter adapter = new DeliveryMainAdapter(getApplicationContext(), productList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 String sleepTime = "1";
                 runner.execute(sleepTime);
                 pullToRefresh.setRefreshing(false);
-                GetOngoingDelivery();
+                GetOngoingDelivery();*/
             }
         });
 
@@ -215,9 +221,9 @@ public class NavActivity extends AppCompatActivity
         //   spinner = (ProgressBar)findViewById(R.id.progressBar1);
 
 
-        AsyncTaskRunner runner = new AsyncTaskRunner();
+/*        AsyncTaskRunner runner = new AsyncTaskRunner();
         String sleepTime = "1";
-        runner.execute(sleepTime);
+        runner.execute(sleepTime);*/
 
         ViewPager vp_pages= (ViewPager) findViewById(R.id.vp_pages);
         PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
@@ -533,15 +539,15 @@ public class NavActivity extends AppCompatActivity
 
     }
 
-    private void loadProducts() {
+/*    private void loadProducts() {
 
-        /*
+        *//*
          * Creating a String Request
          * The request type is GET defined by first parameter
          * The URL is defined in the second parameter
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
-         * */
+         * *//*
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_DELIVERIES,
                 new Response.Listener<String>() {
                     @Override
@@ -619,7 +625,7 @@ public class NavActivity extends AppCompatActivity
         Volley.newRequestQueue(this).add(stringRequest);
 
 
-    }
+    }*/
 
     private String getRequestUrl(String fromLatLong, String toLatLong) {
         //Value of origin
@@ -677,7 +683,7 @@ public class NavActivity extends AppCompatActivity
             publishProgress("Sleeping..."); // Calls onProgressUpdate()
             try {
                 int time = Integer.parseInt(params[0]) * 1000;
-                loadProducts();
+                //loadProducts();
                 Thread.sleep(time);
                 resp = "Slept for " + params[0] + " seconds";
             } catch (Exception e) {

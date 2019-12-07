@@ -1,19 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sharpflux.deliveryboy2.NavActivity"
-    tools:showIn="@layout/app_bar_nav"
-    android:id="@+id/pullToRefresh">
+    tools:context="com.sharpflux.deliveryboy2.NavActivity">
+
+  <!--  <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Driver Duty"
+                android:layout_marginLeft="20dp"/>
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_marginLeft="200dp"
+                android:layout_width="wrap_content"
+                android:theme="@style/SwitchTheme"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+-->
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_driver_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Driver Duty"
+                    android:textColor="@color/blackLight"
+                    android:textSize="@dimen/font_18" />
+                <Switch
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textOff="Off"
+                    android:textOn="On"
+                    android:theme="@style/SCBSwitch"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_driver_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="OFF"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/font_18" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pullToRefresh">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recylcerView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="745dp"
         tools:layout_editor_absoluteY="-51dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <!--<include layout="@layout/content_nav"/>-->
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardTotalEarnings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        android:layout_below="@+id/card_driver_status"
+        tools:ignore="NotSibling">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivTotalEarningsImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="@dimen/margin_small"
+                android:src="@drawable/ic_rupee_earnings"
+                android:background="@drawable/circle_sky_blue"
+                android:padding="16dp"
+                android:tint="@color/quantum_grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTotalEarningsHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Earning"
+                    android:textColor="@color/blackLight"
+                    android:textSize="@dimen/font_18"
+                    />
+
+                <TextView
+                    android:id="@+id/tvTotalEarnings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_mini"
+                    android:textColor="@color/lightBlack"
+                    android:text="647"
+                    android:textSize="24dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

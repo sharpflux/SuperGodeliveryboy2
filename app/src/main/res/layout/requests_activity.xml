@@ -194,8 +194,99 @@
                 </LinearLayout>
 
 
+               <!-- <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_weight="1.0">
+                        <TextView
+
+                            android:textSize="17.0sp"
+                            android:textColor="@color/silver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Drop Address"
+                            android:fontFamily="@font/sfui_text_regular"
+                            android:letterSpacing="0.0525" />
+                        <TextView
+                            android:id="@+id/drop_location"
+                            android:textSize="14.5sp"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7.0dip"
+                            android:text="@string/dinesh_roadtxt"
+                            android:lineSpacingExtra="2.0dip"
+                            android:fontFamily="@font/sfui_text_regular"
+                            android:letterSpacing="0.0525" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:id="@+id/direction1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/circle_green" />
+
+                    </LinearLayout>
+                </LinearLayout>-->
+
+
             </LinearLayout>
         </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lr_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/lr_edit">
+
+
+            <Button
+                android:id="@+id/btn_accept"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_plain"
+                android:gravity="center"
+                android:padding="@dimen/padding_small"
+                android:text="Accept"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+
+
+            <Button
+                android:id="@+id/btn_decline"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/edit"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Decline"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
         <View
             android:background="@color/viewline"
             android:layout_width="fill_parent"

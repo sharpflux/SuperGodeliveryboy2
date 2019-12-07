@@ -45,7 +45,7 @@
             android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".NavActivity"
-            android:label="Order List"
+            android:label="Home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
@@ -102,9 +102,19 @@
             />
         -->
         <service
-            android:name=".BackgroundService"
+            android:name=".ServiceNoDelay"
+            android:enabled="true" />
+
+        <receiver
+            android:name=".SensorRestarterBroadcastReceiver"
+            android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false" />
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="com.sharpflux.delivery" />
+            </intent-filter>
+        </receiver>
+
 
         <activity
             android:name=".MapsActivity"
