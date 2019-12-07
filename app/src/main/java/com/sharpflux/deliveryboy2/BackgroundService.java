@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -46,29 +45,18 @@ public class BackgroundService extends Service {
     private static int INTERVAL_DECLINE = 50000;
     private HashMap<String,MediaPlayer> mHashMap = new HashMap();
 
-    //private final IBinder myBinder = new BackgroundService.MyBinder();
 
     @Override
     public void onCreate() {
         super.onCreate();
         startTimer();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForeground();
-
-        }
-        else {
+        else
             startForeground(1, new Notification());
 
-        }
     }
-   // private  IBinder mBinder= new BackgroundService.LocalBinder();
 
-   /* public class LocalBinder extends Binder {
-        public BackgroundService getStickyService() {
-            // Return this instance of LocalService so clients can call public methods
-            return BackgroundService.this;
-        }
-    }*/
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getAction().equals("MyService")) {
@@ -77,7 +65,7 @@ public class BackgroundService extends Service {
             startTimer();
             deliveryId = 9999;
         }
-         else stopMyService();
+        else stopMyService();
         return START_STICKY;
     }
 
@@ -88,13 +76,7 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
     }
-    public class MyBinder extends Binder
-    {
-        BackgroundService getService()
-        {
-            return BackgroundService.this;
-        }
-    }
+
     @Override
     public IBinder onBind(Intent intent) {
         // Used only in case of bound services.
@@ -147,8 +129,7 @@ public class BackgroundService extends Service {
 
     void stopMyService() {
         stopForeground(true);
-        this.stopSelf();
-        //stoptimertask();
+        stopSelf();
         isServiceRunning = false;
     }
 
@@ -179,7 +160,7 @@ public class BackgroundService extends Service {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                           Toast.makeText(getApplicationContext(), latLong, Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
 
                            /* mMediaPlayer =  MediaPlayer.create(getApplication(), R.raw.ring_tone_final);
                             mHashMap.put("68545",mMediaPlayer);
