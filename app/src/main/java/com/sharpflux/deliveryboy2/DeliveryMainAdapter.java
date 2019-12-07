@@ -51,6 +51,7 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
 
         this.mMediaPlayer=mMediaPlayer;
         this.mHashMap=mHashMap;
+        //Setting
 
     }
 
