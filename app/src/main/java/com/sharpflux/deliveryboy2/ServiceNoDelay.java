@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,6 +33,128 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+public class ServiceNoDelay extends Service {
+    public int counter = 0;
+    Context context;
+    private static final String CHANNEL_ID = "myChannel";
+    private static final String CHANNEL_NAME = "myChannelName";
+    static final int NOTIFICATION_ID = 543;
+    public int deliveryId;
+    private static int INTERVAL = 45000;
+    MediaPlayer mMediaPlayer;
+    private static int INTERVAL_DECLINE = 50000;
+    private HashMap<String,MediaPlayer> mHashMap = new HashMap();
+    final static String MY_ACTION = "MY_ACTION";
+
+    public ServiceNoDelay(Context applicationContext) {
+        super();
+        context = applicationContext;
+        Log.i("HERE", "here service created!");
+    }
+
+    public ServiceNoDelay() {
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        startTimer();
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("EXIT", "ondestroy!");
+        Intent broadcastIntent = new Intent("ac.in.ActivityRecognition.RestartSensor");
+        sendBroadcast(broadcastIntent);
+        stoptimertask();
+    }
+
+    private Timer timer;
+    private TimerTask timerTask;
+
+    public void startTimer() {
+        //set a new Timer
+        timer = new Timer();
+        //initialize the TimerTask's job
+        initializeTimerTask();
+        //schedule the timer, to wake up every 1 second
+        timer.schedule(timerTask, 5000, 3000); //
+    }
+
+    public void initializeTimerTask() {
+        timerTask = new TimerTask() {
+            public void run() {
+                loadProducts(String.valueOf(counter++));
+                Log.i("in timer", "in timer ++++  " + (counter++));
+            }
+        };
+    }
+
+    public void stoptimertask() {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    private void loadProducts(String Counter) {
+        User user=   SharedPrefManager.getInstance(getApplicationContext()).getUser();
+        String  customerId = String.valueOf(user.getId());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_DELIVERIES,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            //  mProgressDialog.dismiss();
+                            //converting the string to json array object
+                          JSONArray array = new JSONArray(response);
+                              Intent intent = new Intent();
+                            intent.setAction(MY_ACTION);
+                            intent.putExtra("List",array.toString());
+                            sendBroadcast(intent);
+                           //Toast.makeText(getApplicationContext(), Counter, Toast.LENGTH_SHORT).show();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("CustomerId", customerId);
+                params.put("Password", "password");
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
+}
+
+
+
+/*
 public class ServiceNoDelay extends Service {
 
     public int counter = 0;
@@ -65,7 +188,7 @@ public class ServiceNoDelay extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-       // startTimer();
+        // startTimer();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground();
 
@@ -85,9 +208,6 @@ public class ServiceNoDelay extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-
-
         Intent broadcastIntent = new Intent("com.sharpflux.delivery");
         sendBroadcast(broadcastIntent);
         stoptimertask();
@@ -208,4 +328,4 @@ public class ServiceNoDelay extends Service {
     }
 
 
-}
+}*/

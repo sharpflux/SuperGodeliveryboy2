@@ -60,7 +60,7 @@ public class MyOrderListActivity extends AppCompatActivity {
 
 
         initAdapter();
-        myOrdersRecyView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager3) {
+      /*  myOrdersRecyView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager3) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 isLoading = true;
@@ -73,7 +73,7 @@ public class MyOrderListActivity extends AppCompatActivity {
                 runner.execute(sleepTime);
 
             }
-        });
+        });*/
 
 
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

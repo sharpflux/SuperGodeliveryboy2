@@ -1,10 +1,13 @@
 package com.sharpflux.deliveryboy2;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,8 +43,20 @@ public class NewRequestFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
+       /**/
 
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,19 +71,24 @@ public class NewRequestFragment extends Fragment {
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
             mMediaPlayer = MediaPlayer.create(getActivity(), R.raw.ring_tone_final);
-            mHashMap.put("6666", mMediaPlayer);
+            mHashMap.put(String.valueOf("9999"), mMediaPlayer);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setLooping(true);
             mMediaPlayer.start();
 
             try {
                 array = new JSONArray(extras.getString("List").toString());
-
                 for (int i = 0; i < array.length(); i++) {
 
                     //getting product object from json array
                     JSONObject product = array.getJSONObject(i);
+
+
+                    Vibrator vib = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    vib.vibrate(200);
+
 
                     DeliveryList list2 = new DeliveryList(product.getString("mobile"));
 

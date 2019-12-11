@@ -40,33 +40,29 @@
      android:orientation="vertical">
 
 
-    <android.support.v7.widget.CardView
-        android:background="@color/white"
-        android:id="@+id/android_card_view_example"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="0dp">
+     <FrameLayout
+         xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:map="http://schemas.android.com/apk/res-auto"
+         xmlns:tools="http://schemas.android.com/tools"
+         android:background="@color/transferent"
+         android:layout_width="match_parent"
+         android:layout_height="250dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:background="#fff"
-            android:elevation="4dp"
-            android:padding="16dp">
+         <fragment
+             android:id="@+id/map"
+             android:name="com.google.android.gms.maps.SupportMapFragment"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             map:mapType="normal"
+             tools:context=".MapStartedActivity"/>
 
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:map="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                map:mapType="normal"
-                tools:context=".MapStartedActivity"/>
+     </FrameLayout>
 
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
+     <View
+         android:background="@color/viewline"
+         android:layout_width="fill_parent"
+         android:layout_height="1.0dip"
+         />
 
    <!-- <android.support.v7.widget.CardView
         android:id="@+id/android_card_view_example2"
@@ -336,7 +332,7 @@
 
              <LinearLayout
                  android:layout_width="1.0dip"
-                 android:layout_height="80.0dip"
+                 android:layout_height="100.0dip"
                  android:layout_gravity="center"
                  android:background="@drawable/dotted_linegray"
                  android:layerType="software"
@@ -461,24 +457,49 @@
      </android.support.v7.widget.CardView>
 -->
 
+
      <LinearLayout
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
+         android:layout_height="wrap_content"
          android:gravity="bottom"
-         android:orientation="vertical">
+         android:orientation="horizontal">
 
-         <Button
+         <TextView
              android:id="@+id/buttonAcceptRequest"
-             android:layout_width="match_parent"
+             android:layout_width="0dp"
              android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:height="60dp"
-             android:background="@drawable/btn_plain"
-             android:text="Accept Delivery"
-             android:textColor="@android:color/white"
-             android:textSize="20dp"
-             android:textStyle="bold" />
+             android:layout_weight="1"
+             android:gravity="center"
+             android:paddingBottom="17.3dp"
+             android:paddingTop="12.7dp"
+             android:text="CALL CUSTOMER"
+             android:background="@color/colorPrimary"
+             android:textColor="@color/white"
+             android:textSize="13.3sp" />
+
+         <View
+             android:layout_width="0.7dp"
+             android:layout_height="match_parent"
+             android:background="@color/viewline" />
+
+         <TextView
+             android:id="@+id/btnCancelDelivery"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:gravity="center"
+             android:paddingBottom="17.3dp"
+             android:paddingTop="12.7dp"
+             android:text="CANCEL DELIVERY"
+             android:textStyle="bold"
+             android:background="@color/red"
+             android:textColor="@color/white"
+             android:textSize="13.3sp" />
+
      </LinearLayout>
+
+
+
 
  </LinearLayout>
 

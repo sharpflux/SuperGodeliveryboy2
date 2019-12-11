@@ -4,7 +4,9 @@ package com.sharpflux.deliveryboy2;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,9 +14,13 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -32,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -60,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
-    private Button acceptRequest;
+    private TextView acceptRequest,btnCancelDelivery;
     private Bundle bundle;
     private ImageView arrowback;
     ArrayList<LatLng> listPoints;
@@ -74,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.accept_delivery);
 
         acceptRequest = findViewById(R.id.buttonAcceptRequest);
+        btnCancelDelivery=findViewById(R.id.btnCancelDelivery);
 
         arrowback = findViewById(R.id.arrow_back_img);
 
@@ -96,7 +104,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+        btnCancelDelivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                builder.setCancelable(false);
+                builder.setTitle("CANCEL THE REQUEST ??");
+
+                builder.setMessage("Are you sure you want to cancel this order?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //if user pressed "yes", then he is allowed to exit from application
+                        CANCELORDER();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //if user select "No", just cancel this dialog and continue with app
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+
+
+            }
+        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -110,6 +147,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtPickupLocation = findViewById(R.id.txtPickupLocation);
         txtDropLocation = findViewById(R.id.txtDropLocation);
         cardview_rupees = findViewById(R.id.cardview_rupees);
+    }
+
+    public void CANCELORDER() {
+        final String deliveryidobj;
+        final String customerIdobj;
+        bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            deliveryid = bundle.getInt("DeliveryId");
+        }
+        customerId = String.valueOf(user.getId());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_STATUS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // progressBar.setVisibility(View.GONE);
+
+                        try {
+
+                            //converting response to json object
+                            JSONObject obj = new JSONObject(response);
+                            //if no error in response
+                            if (!obj.getBoolean("error")) {
+                                ServiceNoDelay mSensorService = new ServiceNoDelay(getApplicationContext());
+                                Intent mServiceIntent = new Intent(getApplicationContext(), mSensorService.getClass());
+                                if (!isMyServiceRunning(mSensorService.getClass())) {
+                                    getApplicationContext().stopService(mServiceIntent);
+                                }
+                                Intent intent = new Intent(MapsActivity.this, NavActivity.class);
+                                startActivity(intent);
+
+                                Toast.makeText(getApplicationContext(), "DELIVERY CANCELLED", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("DeliveryId",String.valueOf( deliveryid));
+                params.put("CustomerId", customerId);
+                params.put("vehicleType", "6");//CANCEL DELIVERY
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
 
@@ -434,8 +530,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             deliveryid = bundle.getInt("DeliveryId");
         }
 
-
-
         customerId = String.valueOf(user.getId());
         deliveryidobj = String.valueOf(deliveryid);
         customerIdobj = customerId;
@@ -446,8 +540,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // progressBar.setVisibility(View.GONE);
 
                         try {
-
-
 
                             //converting response to json object
                             JSONObject obj = new JSONObject(response);
@@ -558,4 +650,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+
+
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

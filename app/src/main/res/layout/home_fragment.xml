@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_mini"
                     android:textColor="@color/lightBlack"
-                    android:text="647"
+                    android:text="0.00 Rs."
                     android:textSize="24dp" />
 
             </LinearLayout>

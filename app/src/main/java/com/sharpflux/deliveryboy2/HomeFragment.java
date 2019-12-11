@@ -1,6 +1,7 @@
 package com.sharpflux.deliveryboy2;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -20,9 +22,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -65,7 +70,9 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
     Switch switch1;
     List<DeliveryList> productList;
     RecyclerView recyclerView;
-
+    MediaPlayer mMediaPlayer;
+    private static int INTERVAL_DECLINE = 50000;
+    private HashMap<String, MediaPlayer> mHashMap = new HashMap();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,6 +100,21 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         getContext().registerReceiver(myReceiver, intentFilter);
         productList = new ArrayList<DeliveryList>();
 
+        if (mHashMap != null && mHashMap.size() > 0) {
+            mHashMap.clear();
+        }
+
+
+        if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
+
+            mMediaPlayer.reset();
+
+            mMediaPlayer.release();
+
+            mMediaPlayer = null;
+        }
+
 
         HomeFragment.AsyncTaskRunner runner = new HomeFragment.AsyncTaskRunner();
         String sleepTime = "1";
@@ -101,8 +123,6 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         recyclerView = view.findViewById(R.id.recylcerView1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
         return view;
     }
 
@@ -115,7 +135,14 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
             Bundle bundle = new Bundle();
             String datapassed = arg1.getStringExtra("List");
 
-            if(datapassed!="[]") {
+
+            if(!datapassed.equals("[]") && datapassed!=null) {
+                //pushAppToForground();
+                ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
+                Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
+                if (isMyServiceRunning(mSensorService.getClass())) {
+                    getContext().stopService(mServiceIntent);
+                }
                 Fragment fragment = new NewRequestFragment();
                 FragmentManager fm = getFragmentManager();
                 bundle.putString("List", datapassed);
@@ -125,11 +152,9 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                 transaction.commit();
 
             }
-
-
         }
 
-        }
+}
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
@@ -143,7 +168,20 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         return false;
     }
 
+    private void pushAppToForground() {
+        if (!MyApplication.isActivityVisible()) {
+            Log.e("TAG", "callFragWithDelay:  available********");
+            Intent intent = new Intent(getContext(),HomeFragment.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        KeyguardManager myKM = (KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE);
+        if (myKM.inKeyguardRestrictedInputMode()) {
 
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+    }
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
@@ -169,6 +207,11 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         }else{
             Toast.makeText(getContext(), "Now you are Offline", Toast.LENGTH_LONG).show();
             txt_driver_status.setText("OFF");
+            if (mHashMap != null && mHashMap.size() > 0) {
+                mHashMap.clear();
+            }
+
+
             ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
             Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
             if (isMyServiceRunning(mSensorService.getClass())) {
@@ -177,13 +220,6 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
 
         }
     }
-
-
-
-
-
-
-
     private void setDynamicFragmentToTabLayout() {
         User user = SharedPrefManager.getInstance(getContext()).getUser();
         deliveryBoyId = user.getId();

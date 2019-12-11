@@ -271,20 +271,7 @@ public class NavActivity extends AppCompatActivity
     }*/
 
 
-    private void pushAppToForground() {
-        if (!MyApplication.isActivityVisible()) {
-            Log.e("TAG", "callFragWithDelay:  available********");
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-        KeyguardManager myKM = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
-        if (myKM.inKeyguardRestrictedInputMode()) {
 
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        }
-    }
     class FragmentAdapter extends FragmentPagerAdapter {
 
         public FragmentAdapter(FragmentManager fm) {
