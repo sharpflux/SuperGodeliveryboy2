@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/direction_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13.3dp"
+        android:orientation="horizontal"
+        android:paddingEnd="12.7dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/txtHeading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Total Earn"
+            android:textColor="#000000"
+            android:textSize="13.3sp" />
+
+        <TextView
+            android:id="@+id/txtValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Rs 678"
+            android:fontFamily="@font/sfpro_display_bold"
+            android:textColor="#707070"
+            android:textSize="13.3sp" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="13.3dp"
+           android:orientation="horizontal"
+           android:paddingEnd="12.7dp"
+           android:paddingStart="15dp">
+
+           <TextView
+               android:id="@+id/txtHeading"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_weight="1"
+               android:text="Total Earn"
+               android:textColor="#000000"
+               android:textSize="13.3sp" />
+
+           <TextView
+               android:id="@+id/txtValue"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:text="Rs 678"
+               android:fontFamily="@font/sfpro_display_bold"
+               android:textColor="#707070"
+               android:textSize="13.3sp" />
+
+
+       </LinearLayout>
+
+
+
+
+</RelativeLayout>-->

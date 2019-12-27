@@ -163,9 +163,9 @@ public class NavActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         ////////////////
         //getting the recyclerview from xml
-        recyclerView = findViewById(R.id.recylcerView1);
+        /*recyclerView = findViewById(R.id.recylcerView1);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
 
         //initializing the productlist
         productList = new ArrayList<DeliveryList>();
@@ -185,7 +185,7 @@ public class NavActivity extends AppCompatActivity
 
         deliveryBoyId = user.getId();
 
-        pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh);
+    /*    pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh);
 
 
 
@@ -198,17 +198,17 @@ public class NavActivity extends AppCompatActivity
 
                 Refreshcounter = Refreshcounter + 1;
                 productList.clear();
-                /*DeliveryMainAdapter adapter = new DeliveryMainAdapter(getApplicationContext(), productList);
+                *//*DeliveryMainAdapter adapter = new DeliveryMainAdapter(getApplicationContext(), productList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 String sleepTime = "1";
                 runner.execute(sleepTime);
                 pullToRefresh.setRefreshing(false);
-                GetOngoingDelivery();*/
+                GetOngoingDelivery();*//*
             }
         });
-
+*/
         GetOngoingDelivery();
 
         //  mAdapter.setClickListener(this);
@@ -302,7 +302,7 @@ public class NavActivity extends AppCompatActivity
                 //Your tab titles
                 //
                 case 0:return "Active Trips";
-                case 1:return "History";
+                case 1:return "Details";
 
                 default:return null;
             }
@@ -705,5 +705,15 @@ public class NavActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApplication.activityPaused();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.activityResumed();
+    }
 }

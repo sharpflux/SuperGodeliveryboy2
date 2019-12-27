@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +40,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
     AlertDialog.Builder builder;
     String Mobile="";
     String otp;
+    TextView smstonumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         editText_two = findViewById(R.id.pin_second_edittext);
         editText_three = findViewById(R.id.pin_third_edittext);
         editText_four = findViewById(R.id.pin_forth_edittext);
+        smstonumber=findViewById(R.id.smstonumber);
 
         btnValidate = findViewById(R.id.btnValidate);
 
@@ -62,69 +65,92 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         btnValidate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(editText_one.getText().toString())) {
-                    editText_one.setError("Please enter ");
-                    editText_one.requestFocus();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(editText_two.getText().toString())) {
-                    editText_two.setError("Please enter");
-                    editText_two.requestFocus();
-                    return;
-                }
-                if (TextUtils.isEmpty(editText_three.getText().toString())) {
-                    editText_three.setError("Please enter");
-                    editText_three.requestFocus();
-                    return;
-                }
-                if (TextUtils.isEmpty(editText_four.getText().toString())) {
-                    editText_four.setError("Please enter");
-                    editText_four.requestFocus();
-                    return;
-                }
-                String EnteredOTP=editText_one.getText().toString()+editText_two.getText().toString()+editText_three.getText().toString()+editText_four.getText().toString();
-                if(otp!=null) {
-                    if (otp.equals(EnteredOTP)) {
-                        validate();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SmSOtpActivity.this);
+                builder.setCancelable(false);
+                builder.setMessage("Do you want complete this order?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //if user pressed "yes", then he is allowed to exit from application
+                        CompleteDelivery();
                     }
-
-                    else {
-                        builder.setMessage("OTP is not valid")
-                                .setCancelable(false)
-
-                                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //  Action for 'NO' Button
-                                        dialog.cancel();
-
-                                    }
-                                });
-
-                        AlertDialog alert = builder.create();
-                        alert.setTitle("Invalid OTP");
-                        alert.show();
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //if user select "No", just cancel this dialog and continue with app
+                        dialog.cancel();
                     }
-                }
-
-                else {
-                    builder.setMessage("OTP not yet generated")
-                            .setCancelable(false)
-
-                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    //  Action for 'NO' Button
-                                    dialog.cancel();
-
-                                }
-                            });
-
-                    AlertDialog alert = builder.create();
-                    alert.setTitle("Invalid OTP");
-                    alert.show();
-                }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
+    }
+
+
+    public  void  CompleteDelivery(){
+        if (TextUtils.isEmpty(editText_one.getText().toString())) {
+            editText_one.setError("Please enter ");
+            editText_one.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(editText_two.getText().toString())) {
+            editText_two.setError("Please enter");
+            editText_two.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(editText_three.getText().toString())) {
+            editText_three.setError("Please enter");
+            editText_three.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(editText_four.getText().toString())) {
+            editText_four.setError("Please enter");
+            editText_four.requestFocus();
+            return;
+        }
+        String EnteredOTP=editText_one.getText().toString()+editText_two.getText().toString()+editText_three.getText().toString()+editText_four.getText().toString();
+        if(otp!=null) {
+            if (otp.equals(EnteredOTP)) {
+                validate();
+            }
+
+            else {
+                builder.setMessage("OTP is not valid")
+                        .setCancelable(false)
+
+                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+
+                            }
+                        });
+
+                AlertDialog alert = builder.create();
+                alert.setTitle("Invalid OTP");
+                alert.show();
+            }
+        }
+
+        else {
+            builder.setMessage("OTP not yet generated")
+                    .setCancelable(false)
+
+                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Action for 'NO' Button
+                            dialog.cancel();
+
+                        }
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.setTitle("Invalid OTP");
+            alert.show();
+        }
     }
 
     @Override
@@ -180,6 +206,8 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         if (bundle != null) {
             Mobile = bundle.getString("Mobile");
         }
+
+        smstonumber.setText("Please type the verification code sent to +" +Mobile);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_OTP,
                 new Response.Listener<String>() {
@@ -292,6 +320,29 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         };
 
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to Exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user pressed "yes", then he is allowed to exit from application
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
   /*  @Override

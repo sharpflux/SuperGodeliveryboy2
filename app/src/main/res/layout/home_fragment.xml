@@ -7,39 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.sharpflux.deliveryboy2.NavActivity">
 
-  <!--  <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        app:cardElevation="5dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Driver Duty"
-                android:layout_marginLeft="20dp"/>
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_marginLeft="200dp"
-                android:layout_width="wrap_content"
-                android:theme="@style/SwitchTheme"
-                android:layout_height="wrap_content"/>
-
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
--->
 
 
     <android.support.v7.widget.CardView

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -11,57 +10,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-        //
-        //
-        // Tab layout to show tabs
-        //
-        //
+
         <android.support.design.widget.TabLayout
-            android:background="@color/colorPrimary"
-            app:tabSelectedTextColor="#ffffff"
-            app:tabIndicatorColor="#FFFFFF"
-            app:tabIndicatorHeight="3dp"
-            app:tabTextColor="#FFFFFF"
+            android:id="@+id/tbl_pages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed"
+            android:background="@color/colorPrimary"
             app:tabGravity="fill"
-            android:id="@+id/tbl_pages"/>
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextColor="#FFFFFF" />
 
     </android.support.design.widget.AppBarLayout>
-    <!-- <include layout="@layout/content_main" />-->
-    <FrameLayout
-        android:id="@+id/FragmentContain"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        //
-        //
-        //ViewPager to show tab's fragments
-        //
-        //
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_pages"
+        <FrameLayout
+            android:id="@+id/FragmentContain2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v4.view.ViewPager>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_pages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <include layout="@layout/content_nav" />
+            </android.support.v4.view.ViewPager>
+                <include layout="@layout/content_nav" />
+        </FrameLayout>
 
 
-    </FrameLayout>
 
-
-</LinearLayout>
-<!--
+</LinearLayout><!--
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -80,7 +80,7 @@ public class ServiceNoDelay extends Service {
         //initialize the TimerTask's job
         initializeTimerTask();
         //schedule the timer, to wake up every 1 second
-        timer.schedule(timerTask, 5000, 3000); //
+        timer.schedule(timerTask, 3000, 3000); //
     }
 
     public void initializeTimerTask() {
@@ -118,12 +118,12 @@ public class ServiceNoDelay extends Service {
 
                             //  mProgressDialog.dismiss();
                             //converting the string to json array object
-                          JSONArray array = new JSONArray(response);
-                              Intent intent = new Intent();
-                            intent.setAction(MY_ACTION);
-                            intent.putExtra("List",array.toString());
-                            sendBroadcast(intent);
-                           //Toast.makeText(getApplicationContext(), Counter, Toast.LENGTH_SHORT).show();
+                            JSONArray array = new JSONArray(response);
+                            Intent intent = new Intent("custom-event-name");
+                            intent.putExtra("List", array.toString());
+                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+                           // Toast.makeText(getApplicationContext(), array.toString(), Toast.LENGTH_SHORT).show();
 
 
                         } catch (JSONException e) {

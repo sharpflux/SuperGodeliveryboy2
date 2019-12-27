@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -78,7 +80,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SmSOtpActivity"
-            android:label=""
+            android:label="ORDER COMPLETE OTP"
             android:parentActivityName=".CallCustomerActivity" />
 
         <service android:name=".MyFirebaseMessagingService">
@@ -105,6 +107,7 @@
         <service
             android:name=".ServiceNoDelay"
             android:enabled="true" />
+
 
         <receiver
             android:name=".SensorRestarterBroadcastReceiver"

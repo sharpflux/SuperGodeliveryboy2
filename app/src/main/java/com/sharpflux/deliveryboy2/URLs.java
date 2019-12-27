@@ -18,6 +18,7 @@ public class URLs {
     public static final String URL_RESETPASS="http://admin.supergo.in/api/User/ChangePassword";
     public static final String URL_ORDER_HISTORY="http://admin.supergo.in/api/DeliveryBoysPayOutAPI/DeliveryBoysPayOutGetApi?";
     public static final String URL_ORDER="http://admin.supergo.in/api/DeliveryRequestDATAApi/DeliveriesGETApi?";
+    public static final String URL_RATESHOW="http://admin.supergo.in/api/RateMasterApi/RateMasterApiGet?DeliveryBoyId=";
 }
 
 

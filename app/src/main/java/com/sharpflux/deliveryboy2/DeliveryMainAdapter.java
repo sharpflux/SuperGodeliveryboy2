@@ -47,13 +47,14 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
     private static int INTERVAL_DECLINE = 50000;
     private HashMap<String, MediaPlayer> mHashMap = new HashMap();
     DeliveryList product;
-
-    public DeliveryMainAdapter(Context mCtx, List<DeliveryList> deliveryList, MediaPlayer mMediaPlayer, HashMap<String, MediaPlayer> mHashMap) {
+    NewRequestFragment frag = null;
+    public DeliveryMainAdapter(Context mCtx, List<DeliveryList> deliveryList, MediaPlayer mMediaPlayer, HashMap<String, MediaPlayer> mHashMap, NewRequestFragment frag) {
         this.mCtx = mCtx;
         this.deliveryList = deliveryList;
 
         this.mMediaPlayer = mMediaPlayer;
         this.mHashMap = mHashMap;
+        this.frag=frag;
         //Setting
 
     }
@@ -103,29 +104,13 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
             public void onClick(View view) {
 
                 Context context=view.getContext();
-                holder.mMediaPlayer.stop();
-
-              if( mHashMap != null &&  mHashMap.size() > 0 ){
-                    Log.e("TAG", "stopRingtone: mHashMap.size() "+mHashMap.size() );
-                    if(mHashMap.get(String.valueOf( "9999")) != null && mHashMap.get(String.valueOf( "9999")).isPlaying() ){
-                        mHashMap.get(String.valueOf( "9999")).stop();
-                        mHashMap.remove(String.valueOf( "9999"));
-                        mMediaPlayer.stop();
-                    }
-                }
-
 
                 ServiceNoDelay mSensorService = new ServiceNoDelay(context);
                 Intent mServiceIntent = new Intent(mCtx, mSensorService.getClass());
                 if (isMyServiceRunning(mSensorService.getClass())) {
                     mCtx.stopService(mServiceIntent);
                 }
-
-
-                AcceptDelivery(String.valueOf(product.getDeliveryId()));
-
-
-
+               frag.AcceptDelivery(String.valueOf(product.getDeliveryId()),product);
 
             }
         });
@@ -133,8 +118,7 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
        holder.decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DECLINEORDER(String.valueOf(product.getDeliveryId()));
-
+                frag.DECLINEORDER(String.valueOf(product.getDeliveryId()));
             }
         });
 
@@ -366,7 +350,7 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
                                 Fragment fragment = new HomeFragment();
                                 FragmentManager fm = ((AppCompatActivity)mCtx).getSupportFragmentManager();;
                                 FragmentTransaction transaction = fm.beginTransaction();
-                                transaction.replace(R.id.FragmentContain, fragment);
+                                transaction.replace(R.id.FragmentContain2, fragment);
                                 transaction.commit();
 
                                 Toast.makeText(mCtx, "DELIVERY DECLINE", Toast.LENGTH_SHORT).show();
