@@ -140,14 +140,13 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         @Override
         public void onReceive(Context context, Intent intent) {
             counter++;
-
             Bundle bundle = new Bundle();
             String datapassed = intent.getStringExtra("List");
-            String visibleFrag = getVisibleFragment();
-            Log.e("Visible", "socketresponse: " + visibleFrag);
-            if (!visibleFrag.equals("NewRequestFragment")) {
+            String visibleFrag = Visible();
 
-                pushAppToForground();
+            Log.e("Visible", "socketresponse: " + visibleFrag);
+            if (visibleFrag.equals("android:switcher:2131362191:0")) {
+                //pushAppToForground();
                 Fragment fragment = new NewRequestFragment();
                 FragmentManager fm = getFragmentManager();
                 if(fm!=null) {
@@ -155,7 +154,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                     bundle.putString("counter", String.valueOf(counter));
                     FragmentTransaction transaction = fm.beginTransaction();
                     fragment.setArguments(bundle);
-                    transaction.replace(R.id.frame, fragment);
+                    transaction.replace(R.id.frame, fragment,"NewRequest");
                     transaction.commitAllowingStateLoss();
                     return;
                 }
@@ -164,6 +163,8 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
             //Toast.makeText(context,datapassed, Toast.LENGTH_SHORT).show();
         }
     };
+
+
 
     private class MyReceiver extends BroadcastReceiver {
 
@@ -185,15 +186,14 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                     getContext().stopService(mServiceIntent);
                 }*/
             if (arg1.getAction().equalsIgnoreCase(ServiceNoDelay.MY_ACTION)) {
-
                 String visibleFrag = getVisibleFragment();
                 Log.e("Visible", "socketresponse: " + visibleFrag);
                 if (!visibleFrag.equals("NewRequestFragment")) {
-
-                        pushAppToForground();
                         Fragment fragment = new NewRequestFragment();
                         FragmentManager fm = getFragmentManager();
                         if(fm!=null) {
+                            Log.e("Visible", "PUSHING : " + visibleFrag);
+
                             bundle.putString("List", datapassed);
                             bundle.putString("counter", String.valueOf(counter));
                             FragmentTransaction transaction = fm.beginTransaction();
@@ -217,6 +217,15 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
 
     }
 
+
+    public String Visible(){
+        if(getContext()!=null) {
+
+            Fragment page = ((AppCompatActivity) getContext()).getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.vp_pages + ":" + 0);
+             return     page.getTag();
+        }
+        return " ";
+    }
     public String getVisibleFragment() {
 
         if(getContext()!=null) {
@@ -231,6 +240,8 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         }
         return " ";
     }
+
+
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {

@@ -1,6 +1,7 @@
 package com.sharpflux.deliveryboy2;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -21,6 +22,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import com.sharpflux.deliveryboy2.R;
 
 public class NewRequestFragment extends Fragment {
     List<DeliveryList> productList;
@@ -106,10 +109,8 @@ public class NewRequestFragment extends Fragment {
                 if(datapassed!="[]" && datapassed!=null)
                 {
                     for (int i = 0; i < array.length(); i++) {
-
                         //getting product object from json array
                         JSONObject product = array.getJSONObject(i);
-
                         DeliveryList list2 = new DeliveryList(product.getString("mobile"));
                         DeliveryList list = new DeliveryList(
                                 product.getInt("DeliveryId"),
@@ -137,17 +138,12 @@ public class NewRequestFragment extends Fragment {
 
                         productList.add(list);
                         adapter.notifyDataSetChanged();
-
-
-
                         notifyDriver(product.getString("DeliveryId"));
                        /* if(extras.getString("counter").equals("1")) {
                                   notifyDriver(product.getString("DeliveryId"));
                         }*/
 
                     }
-
-
                 }
                 else {
                    // mMediaPlayer.stop();
@@ -155,9 +151,8 @@ public class NewRequestFragment extends Fragment {
                     Fragment fragment = new HomeFragment();
                     FragmentManager fm = ((AppCompatActivity)getContext()).getSupportFragmentManager();;
                     FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.FragmentContain2, fragment);
+                    transaction.replace(R.id.FragmentContain2, fragment,"Home");
                     transaction.commit();
-
                 }
 
             } catch (JSONException e) {
@@ -168,12 +163,28 @@ public class NewRequestFragment extends Fragment {
         return view;
     }
 
+    private void pushAppToForground() {
+        if (!MyApplication.isActivityVisible()) {
 
+            if(getContext()!=null) {
+                KeyguardManager myKM = (KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE);
+                //if (myKM.inKeyguardRestrictedInputMode()) {
+                Window window = getActivity().getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+                // }
+                Log.e("TAG", "callFragWithDelay:  available********");
+                Intent intent = new Intent(getContext(), NavActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        }
+
+    }
 
     private void notifyDriver(final String id) {
 
         try {
-
+            pushAppToForground();
             mMediaPlayer =  MediaPlayer.create(getActivity(), R.raw.ring_tone_final);
             mHashMap.put(id,mMediaPlayer);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

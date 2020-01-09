@@ -1,5 +1,6 @@
 package com.sharpflux.deliveryboy2;
 
+import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -360,6 +361,25 @@ public class NavActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public  void  StopBackGround()
+    {
+        ServiceNoDelay mSensorService = new ServiceNoDelay(getApplicationContext());
+        Intent mServiceIntent = new Intent(getApplicationContext(), mSensorService.getClass());
+        if (isMyServiceRunning(mSensorService.getClass())) {
+            getApplicationContext().stopService(mServiceIntent);
+        }
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -374,6 +394,7 @@ public class NavActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_order) {
 
+            StopBackGround();
              Intent oin = new Intent(NavActivity.this,MyOrderListActivity.class);
              startActivity(oin);
 /*
@@ -389,18 +410,21 @@ public class NavActivity extends AppCompatActivity
         } else if (id == R.id.nav_contactus) {
 
             //Open URL on click of Visit Us
+            StopBackGround();
             Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(NavigationDrawerConstants.SITE_URL));
             startActivity(urlIntent);
 
         } else if (id == R.id.nav_help) {
 
             //Open URL on click of Visit Us
+            StopBackGround();
             Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(NavigationDrawerConstants.SITE_URL));
             startActivity(urlIntent);
 
         } else if (id == R.id.nav_share) {
 
             //Display Share Via dialogue
+            StopBackGround();
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType(NavigationDrawerConstants.SHARE_TEXT_TYPE);
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, NavigationDrawerConstants.SHARE_TITLE);
