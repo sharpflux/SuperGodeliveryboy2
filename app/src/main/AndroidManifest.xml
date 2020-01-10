@@ -39,10 +39,10 @@
             android:name=".ResetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OtpActivity" />
-        <activity
+      <!--  <activity
             android:name=".CallCustomerActivity"
             android:label="Ongoing Ride Details"
-            android:parentActivityName=".NavActivity" />
+            android:parentActivityName=".NavActivity" />-->
         <activity
             android:name=".ForgotPasswordActivity"
             android:parentActivityName=".LoginActivity" />

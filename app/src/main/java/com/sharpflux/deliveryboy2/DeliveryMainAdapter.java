@@ -48,7 +48,8 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
     private HashMap<String, MediaPlayer> mHashMap = new HashMap();
     DeliveryList product;
     NewRequestFragment frag = null;
-    public DeliveryMainAdapter(Context mCtx, List<DeliveryList> deliveryList, MediaPlayer mMediaPlayer, HashMap<String, MediaPlayer> mHashMap, NewRequestFragment frag) {
+    public DeliveryMainAdapter(Context mCtx, List<DeliveryList> deliveryList, MediaPlayer
+            mMediaPlayer, HashMap<String, MediaPlayer> mHashMap, NewRequestFragment frag) {
         this.mCtx = mCtx;
         this.deliveryList = deliveryList;
 

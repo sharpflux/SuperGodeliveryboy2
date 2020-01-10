@@ -99,7 +99,7 @@ public class CallCustomerActivity extends AppCompatActivity implements OnMapRead
                 bundle = getIntent().getExtras();
                 if (bundle != null) {
 
-                    Intent callin = new Intent(CallCustomerActivity.this, SmSOtpActivity.class);
+                    Intent callin = new Intent(getApplicationContext(), SmSOtpActivity.class);
                     callin.putExtra("DeliveryId", bundle.getInt("DeliveryId"));
                     callin.putExtra("Mobile",bundle.getString("Mobile"));
                     startActivity(callin);

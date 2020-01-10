@@ -210,7 +210,7 @@ public class NavActivity extends AppCompatActivity
             }
         });
 */
-        GetOngoingDelivery();
+        //GetOngoingDelivery();
 
         //  mAdapter.setClickListener(this);
 
@@ -317,6 +317,7 @@ public class NavActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
         }
 
 
@@ -483,7 +484,7 @@ public class NavActivity extends AppCompatActivity
     }
 
 
-    private void GetOngoingDelivery() {
+    /*private void GetOngoingDelivery() {
 
         int deliveryBoyIds=deliveryBoyId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
@@ -548,7 +549,7 @@ public class NavActivity extends AppCompatActivity
         Volley.newRequestQueue(this).add(stringRequest);
 
 
-    }
+    }*/
 
 /*    private void loadProducts() {
 

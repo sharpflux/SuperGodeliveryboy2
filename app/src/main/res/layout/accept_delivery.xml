@@ -13,15 +13,15 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
         android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
         >
 
         <ImageView
             android:id="@+id/arrow_back_img"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:src="@drawable/arrow_back" />
 
     </android.support.v7.widget.Toolbar>
@@ -44,9 +44,9 @@
          xmlns:android="http://schemas.android.com/apk/res/android"
          xmlns:map="http://schemas.android.com/apk/res-auto"
          xmlns:tools="http://schemas.android.com/tools"
-         android:background="@color/transferent"
          android:layout_width="match_parent"
-         android:layout_height="250dp">
+         android:layout_height="250dp"
+         android:background="@color/transferent">
 
          <fragment
              android:id="@+id/map"
@@ -54,14 +54,26 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              map:mapType="normal"
-             tools:context=".MapStartedActivity"/>
+             tools:context=".MapStartedActivity">
+
+
+         </fragment>
+
+        <!-- <ImageView
+             android:layout_width="20dp"
+             android:src="@drawable/ic_navigation_48"
+             android:id="@+id/navigationIv"
+             android:layout_gravity="bottom|right"
+             android:layout_margin="10dp"
+             android:tint="@color/colorPrimary"
+             android:layout_height="20dp" />-->
 
      </FrameLayout>
 
      <View
-         android:background="@color/viewline"
          android:layout_width="fill_parent"
          android:layout_height="1.0dip"
+         android:background="@color/viewline"
          />
 
    <!-- <android.support.v7.widget.CardView
@@ -173,29 +185,28 @@
     </android.support.v7.widget.CardView>-->
 
      <android.support.v7.widget.CardView
-         android:background="@color/white"
          android:id="@+id/android_card_view_example2"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:layout_marginTop="10dp"
-         app:cardElevation="0dp"
-         >
+         android:background="@color/white"
+         app:cardElevation="0dp">
 
          <LinearLayout
-             android:orientation="horizontal"
              android:layout_width="fill_parent"
              android:layout_height="wrap_content"
              android:layout_marginLeft="16.699982dip"
              android:layout_marginTop="14.799988dip"
-             android:layout_marginRight="16.699982dip">
+             android:layout_marginRight="16.699982dip"
+             android:orientation="horizontal">
 
              <LinearLayout
-                 android:orientation="horizontal"
                  android:layout_width="fill_parent"
                  android:layout_height="wrap_content"
                  android:layout_marginLeft="16.699982dip"
                  android:layout_marginTop="14.799988dip"
-                 android:layout_marginRight="16.699982dip">
+                 android:layout_marginRight="16.699982dip"
+                 android:orientation="horizontal">
 
                  <LinearLayout
                      android:layout_width="wrap_content"
@@ -300,14 +311,13 @@
      </android.support.v7.widget.CardView>
 
      <android.support.v7.widget.CardView
-         app:cardElevation="0dp"
-         android:background="@color/white"
          android:id="@+id/android_card_view_example3"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:layout_marginTop="0dp"
+         android:background="@color/white"
+         app:cardElevation="0dp"
          >
-
 
      <LinearLayout
          android:layout_width="fill_parent"
@@ -426,6 +436,10 @@
              </LinearLayout>
          </LinearLayout>
      </LinearLayout>
+
+
+
+
      </android.support.v7.widget.CardView>
 
      <!--<android.support.v7.widget.CardView
@@ -457,11 +471,23 @@
      </android.support.v7.widget.CardView>
 -->
 
+   <!--<LinearLayout
+         android:id="@+id/lr_nav"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         >
+         <Button
+             android:id="@+id/btn_navigate"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Navigate"
+             />
+     </LinearLayout>-->
+
 
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:gravity="bottom"
          android:orientation="horizontal">
 
          <TextView
@@ -469,11 +495,12 @@
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight="1"
-             android:gravity="center"
-             android:paddingBottom="17.3dp"
-             android:paddingTop="12.7dp"
-             android:text="CALL CUSTOMER"
+             android:layout_gravity="bottom"
              android:background="@color/colorPrimary"
+             android:gravity="center"
+             android:paddingTop="12.7dp"
+             android:paddingBottom="17.3dp"
+             android:text="NAVIGATE TO PICKUP"
              android:textColor="@color/white"
              android:textSize="13.3sp" />
 
@@ -487,19 +514,115 @@
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight="1"
-             android:gravity="center"
-             android:paddingBottom="17.3dp"
-             android:paddingTop="12.7dp"
-             android:text="CANCEL DELIVERY"
-             android:textStyle="bold"
              android:background="@color/red"
+             android:layout_gravity="bottom"
+             android:gravity="center"
+             android:paddingTop="12.7dp"
+             android:paddingBottom="17.3dp"
+             android:text="CANCEL DELIVERY"
              android:textColor="@color/white"
-             android:textSize="13.3sp" />
+             android:textSize="13.3sp"
+             android:textStyle="bold" />
 
      </LinearLayout>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/white"
+         android:visibility="gone"
+         android:orientation="horizontal"
+         android:padding="05dp">
+
+         <LinearLayout
+             android:id="@+id/callCustLlyt"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:orientation="vertical"
+             android:visibility="visible">
+
+             <ImageView
+                 android:layout_width="30dp"
+                 android:layout_height="30dp"
+                 android:layout_gravity="center"
+                 android:src="@drawable/ic_phone_call"
+                 android:tint="@color/colorPrimaryDark"/>
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:gravity="center"
+                 android:padding="02dp"
+                 android:text="Call Customer"
+                 android:textAllCaps="true"
+                 android:textColor="@color/blackShade"
+                 android:textSize="@dimen/font_12"
+                    />
+
+         </LinearLayout>
 
 
+         <LinearLayout
+             android:id="@+id/arrivedLlyt"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:orientation="vertical">
 
+             <ImageView
+                 android:layout_width="30dp"
+                 android:layout_height="30dp"
+                 android:layout_gravity="center"
+                 android:tint="@color/colorPrimary"
+                 android:src="@drawable/ic_arrived_location_32" />
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:gravity="center"
+                 android:padding="02dp"
+                 android:text="Picked"
+                 android:textAllCaps="true"
+                 android:textColor="@color/black"
+                 android:textSize="@dimen/font_13"
+                />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/cancelLlyt"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="0.8"
+             android:background="@color/white"
+             android:orientation="vertical">
+
+             <ImageView
+                 android:id="@+id/imageView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="30dp"
+                 android:layout_gravity="center"
+                 android:tint="@color/red"
+                 android:src="@drawable/ic_ride_cancelled" />
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:gravity="center"
+                 android:padding="02dp"
+                 android:text="Cancel Ride"
+                 android:textAllCaps="true"
+                 android:textColor="@color/blackShade"
+                 android:textSize="@dimen/font_13"
+              />
+
+         </LinearLayout>
+     </LinearLayout>
 
  </LinearLayout>
 

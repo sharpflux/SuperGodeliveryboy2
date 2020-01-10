@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
-    private TextView acceptRequest,btnCancelDelivery;
+    private TextView acceptRequest, btnCancelDelivery,buttonAcceptRequest;
     private Bundle bundle;
     private ImageView arrowback;
     ArrayList<LatLng> listPoints;
@@ -75,36 +77,109 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int deliveryid;
     TextView txtEstimateTime, txtDistance, txtPickupLocation, txtDropLocation, cardview_rupees;
     User user;
+    String fromLat = "", fromLong = "", ToLat = "", ToLong = "";
+    LinearLayout callCustLlyt,arrivedLlyt,cancelLlyt,pickedLlyt,lr_call,lr_drop;
+    ImageView navigationIv,navigationDrop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.accept_delivery);
+        setContentView(R.layout.accept_delivery_test);
 
-        acceptRequest = findViewById(R.id.buttonAcceptRequest);
-        btnCancelDelivery=findViewById(R.id.btnCancelDelivery);
+        arrivedLlyt=findViewById(R.id.arrivedLlyt);
+        cancelLlyt=findViewById(R.id.cancelLlyt);
+        navigationIv=findViewById(R.id.navigationIv);
+        navigationDrop=findViewById(R.id.navigationDrop);
+        pickedLlyt=findViewById(R.id.pickedLlyt);
+        lr_call=findViewById(R.id.lr_call);
+        lr_drop=findViewById(R.id.lr_drop);
 
-        arrowback = findViewById(R.id.arrow_back_img);
+        //buttonAcceptRequest = findViewById(R.id.buttonAcceptRequest);
+       // btnCancelDelivery = findViewById(R.id.btnCancelDelivery);
+
+        //arrowback = findViewById(R.id.arrow_back_img);
+        // lr_nav = findViewById(R.id.lr_nav);
 
         user = SharedPrefManager.getInstance(this).getUser();
 
-        arrowback.setOnClickListener(new View.OnClickListener() {
+        /*arrowback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent backin = new Intent(MapsActivity.this, NavActivity.class);
                 startActivity(backin);
             }
         });
+*/
 
-
-        acceptRequest.setOnClickListener(new View.OnClickListener() {
+        lr_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                validate();
+
+                DeliveryList customer = SharedPrefManager.getInstance(MapsActivity.this).getCustomer();
+
+
+                bundle = getIntent().getExtras();
+                if (bundle != null) {
+                    String phone=bundle.getString("Mobile");
+                    //CustomerName.setText(bundle.getString("Mobile"));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                    startActivity(intent);
+
+                }
+
 
             }
         });
-        btnCancelDelivery.setOnClickListener(new View.OnClickListener() {
+
+        navigationDrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //validate();
+                Intent navigation = new Intent(Intent.ACTION_VIEW, Uri
+                        .parse("google.navigation:q=" + ToLat + "," + ToLong + "&mode=d"));
+                navigation.setPackage("com.google.android.apps.maps");
+                startActivityForResult(navigation, 1234);
+
+
+            }
+        });
+
+
+
+        navigationIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //validate();
+               /* final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + fromLat + "," + fromLong + "&daddr=" + ToLat + "," + ToLong));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+*/
+                Intent navigation = new Intent(Intent.ACTION_VIEW, Uri
+                        .parse("google.navigation:q=" + fromLat + "," + fromLong + "&mode=d"));
+                navigation.setPackage("com.google.android.apps.maps");
+                startActivityForResult(navigation, 1234);
+
+            }
+        });
+        lr_drop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bundle = getIntent().getExtras();
+                if (bundle != null) {
+
+                    Intent callin = new Intent(MapsActivity.this, SmSOtpActivity.class);
+                    callin.putExtra("DeliveryId", bundle.getInt("DeliveryId"));
+                    callin.putExtra("Mobile",bundle.getString("Mobile"));
+                    startActivity(callin);
+
+                }
+            }
+        });
+
+        cancelLlyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -117,7 +192,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //if user pressed "yes", then he is allowed to exit from application
-                        CANCELORDER();
+                        UPDATEDELIVERYSTATUS("6");
+
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -131,6 +207,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 alert.show();
 
 
+            }
+        });
+        /*lr_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + 18.5204 + "," + 73.8567 + "&daddr=" + 19.0760 + "," + 72.8777));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });*/
+        pickedLlyt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MapsActivity.this);
+                builder1.setCancelable(true);
+                builder1.setTitle("PARCEL PICKED !");
+
+                builder1.setMessage("Picked Parcel ?");
+                builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog1, int which) {
+                        UPDATEDELIVERYSTATUS("8");
+                        dialog1.cancel();
+                    }
+                });
+                builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog1, int which) {
+                        //if user select "No", just cancel this dialog and continue with app
+                        dialog1.cancel();
+                    }
+                });
+                AlertDialog alert1 = builder1.create();
+                alert1.show();
 
             }
         });
@@ -138,6 +248,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
+
         mapFragment.getMapAsync(this);
         listPoints = new ArrayList<>();
 
@@ -147,9 +259,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtPickupLocation = findViewById(R.id.txtPickupLocation);
         txtDropLocation = findViewById(R.id.txtDropLocation);
         cardview_rupees = findViewById(R.id.cardview_rupees);
+
     }
 
-    public void CANCELORDER() {
+    public void UPDATEDELIVERYSTATUS(String DeliveryStatusId) {
         final String deliveryidobj;
         final String customerIdobj;
         bundle = getIntent().getExtras();
@@ -170,15 +283,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             JSONObject obj = new JSONObject(response);
                             //if no error in response
                             if (!obj.getBoolean("error")) {
-                                ServiceNoDelay mSensorService = new ServiceNoDelay(getApplicationContext());
+                               /* ServiceNoDelay mSensorService = new ServiceNoDelay(getApplicationContext());
                                 Intent mServiceIntent = new Intent(getApplicationContext(), mSensorService.getClass());
                                 if (!isMyServiceRunning(mSensorService.getClass())) {
                                     getApplicationContext().stopService(mServiceIntent);
-                                }
-                                Intent intent = new Intent(MapsActivity.this, NavActivity.class);
-                                startActivity(intent);
+                                }*/
+                                    Intent intent =new Intent(getApplicationContext(),NavActivity.class);
+                                    startActivity(intent);
 
-                                Toast.makeText(getApplicationContext(), "DELIVERY CANCELLED", Toast.LENGTH_SHORT).show();
+
+                               // Toast.makeText(getApplicationContext(), "DELIVERY CANCELLED", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
@@ -198,9 +312,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("DeliveryId",String.valueOf( deliveryid));
+                params.put("DeliveryId", String.valueOf(deliveryid));
                 params.put("CustomerId", customerId);
-                params.put("vehicleType", "6");//CANCEL DELIVERY
+                params.put("vehicleType", DeliveryStatusId);//DELIVERY STATUS ID
                 return params;
             }
         };
@@ -208,22 +322,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+
+
             return;
         }
         mMap.setMyLocationEnabled(true);
@@ -232,7 +338,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //   Intent intent = getIntent();
 
 
-        String fromLat = "", fromLong = "", ToLat = "", ToLong = "";
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
@@ -520,7 +625,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /////////////
-    private void validate() {
+   /* private void validate() {
 
         final String deliveryidobj;
         final String customerIdobj;
@@ -551,7 +656,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 if (bundle != null) {
 
 
-
                                     Intent intent = new Intent(MapsActivity.this, LocationMonitoringService.class);
                                     intent.putExtra("DeliveryId", bundle.getInt("DeliveryId"));
                                     startService(intent);
@@ -575,11 +679,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     startActivity(callin);
 
 
-
                                 }
 
                             } else {
-                               // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
 
@@ -604,8 +707,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
-    }
-    public  void Notification(String CustomerId) {
+    }*/
+
+    public void Notification(String CustomerId) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_SENNOTIFICATIONTOCUSTOMER,
                 new Response.Listener<String>() {
@@ -632,7 +736,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("ERROR",error.getMessage());
+                        Log.e("ERROR", error.getMessage());
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -640,7 +744,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("CustomerFullName", user.getUsername());
-                params.put("CustomerId",CustomerId);
+                params.put("CustomerId", CustomerId);
                 return params;
 
             }
@@ -649,9 +753,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
 
     }
-
-
-
 
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {

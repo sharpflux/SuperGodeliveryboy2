@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
             String visibleFrag = Visible();
 
             Log.e("Visible", "socketresponse: " + visibleFrag);
-            if (visibleFrag.equals("android:switcher:2131362191:0")) {
+           // if (visibleFrag.equals("android:switcher:2131362191:0")) {
                 //pushAppToForground();
                 Fragment fragment = new NewRequestFragment();
                 FragmentManager fm = getFragmentManager();
@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                     return;
                 }
 
-            }
+            //}
             //Toast.makeText(context,datapassed, Toast.LENGTH_SHORT).show();
         }
     };

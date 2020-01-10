@@ -363,25 +363,27 @@ public class NewRequestFragment extends Fragment {
                             if (!obj.getBoolean("error")) {
 
                                 Intent intent=new Intent();
-                                intent =  new Intent(getContext(), MapsActivity.class);
-                                intent.putExtra("pickup_location", product.getPickupAddress());
-                                intent.putExtra("DropLocation", product.getDeliveryAddress());
-                                intent.putExtra("fromLat",  product.getFromLat());
-                                intent.putExtra("fromLong",product.getFromLang());
-                                intent.putExtra("DeliveryId",product.getDeliveryId());
-                                intent.putExtra("ToLat",product.getToLat());
-                                intent.putExtra("ToLong",product.getToLong());
-                                intent.putExtra("Mobile",product.getMobile());
-                                intent.putExtra("Distance",product.getDistance());
-                                intent.putExtra("Duration", product.getTDuration());
-                                intent.putExtra("Date",product.getPickupDate());
-                                intent.putExtra("Time", product.getPickuptime());
-                                intent.putExtra("CustomerFullName", product.getCustomerFullName());
-                                intent.putExtra("CustomerId",product.getCustomerId());
-                                intent.putExtra("TotalCharges", product.getTotalCharges());
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                getContext().startActivity(intent);
-                                Toast.makeText(getContext(), "DELIVERY ACCEPTED", Toast.LENGTH_SHORT).show();
+                                if(getContext()!=null) {
+                                    intent = new Intent(getContext(), MapsActivity.class);
+                                    intent.putExtra("pickup_location", product.getPickupAddress());
+                                    intent.putExtra("DropLocation", product.getDeliveryAddress());
+                                    intent.putExtra("fromLat", product.getFromLat());
+                                    intent.putExtra("fromLong", product.getFromLang());
+                                    intent.putExtra("DeliveryId", product.getDeliveryId());
+                                    intent.putExtra("ToLat", product.getToLat());
+                                    intent.putExtra("ToLong", product.getToLong());
+                                    intent.putExtra("Mobile", product.getMobile());
+                                    intent.putExtra("Distance", product.getDistance());
+                                    intent.putExtra("Duration", product.getTDuration());
+                                    intent.putExtra("Date", product.getPickupDate());
+                                    intent.putExtra("Time", product.getPickuptime());
+                                    intent.putExtra("CustomerFullName", product.getCustomerFullName());
+                                    intent.putExtra("CustomerId", product.getCustomerId());
+                                    intent.putExtra("TotalCharges", product.getTotalCharges());
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    getContext().startActivity(intent);
+                                    Toast.makeText(getContext(), "DELIVERY ACCEPTED", Toast.LENGTH_SHORT).show();
+                                }
 
                             } else {
                                 // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
