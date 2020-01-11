@@ -188,20 +188,20 @@ public class MyOrderListActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
-            if ((progressDialog != null) && progressDialog.isShowing()) {
+
                 progressDialog.dismiss();
-            }
+
             // finalResult.setText(result);
         }
 
 
         @Override
         protected void onPreExecute() {
-            if ((progressDialog != null) && !progressDialog.isShowing()) {
+
                 progressDialog = ProgressDialog.show(MyOrderListActivity.this,
                         "Loading...",
                         "Wait for result..");
-            }
+
 
         }
 

@@ -155,9 +155,8 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
-        finish();
+        MyApplication.activityPaused();
 
     }
 
@@ -368,4 +367,11 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         alert.show();
     }
 */
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.activityResumed();
+    }
 }

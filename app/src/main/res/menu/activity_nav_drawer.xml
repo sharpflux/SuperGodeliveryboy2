@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_order"
             android:icon="@drawable/order_ic"
-            android:title="My Order" />
+            android:title="My Rides" />
         <item
             android:id="@+id/nav_offers"
             android:icon="@drawable/ic_local_offer"

@@ -210,7 +210,7 @@ public class NavActivity extends AppCompatActivity
             }
         });
 */
-        //GetOngoingDelivery();
+        GetOngoingDelivery();
 
         //  mAdapter.setClickListener(this);
 
@@ -312,16 +312,17 @@ public class NavActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+       /* DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+           StopBackGround();
             finish();
-        }
+        }*/
 
 
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setMessage("Do you want to Exit?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -339,10 +340,10 @@ public class NavActivity extends AppCompatActivity
             }
         });
         AlertDialog alert = builder.create();
-        alert.show();*/
+        alert.show();
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.nav, menu);
@@ -361,7 +362,7 @@ public class NavActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
     public  void  StopBackGround()
     {
         ServiceNoDelay mSensorService = new ServiceNoDelay(getApplicationContext());
@@ -484,7 +485,7 @@ public class NavActivity extends AppCompatActivity
     }
 
 
-    /*private void GetOngoingDelivery() {
+    private void GetOngoingDelivery() {
 
         int deliveryBoyIds=deliveryBoyId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
@@ -506,11 +507,12 @@ public class NavActivity extends AppCompatActivity
                                 intent.putExtra("DeliveryId", obj.getInt("DeliveryId"));
                                 startService(intent);
 
-                                Intent callin = new Intent(NavActivity.this, CallCustomerActivity.class);
+                                Intent callin = new Intent(NavActivity.this, MapsActivity.class);
                                 callin.putExtra("Duration", obj.getString("Duration"));
                                 callin.putExtra("Distance", obj.getString("Distance"));
                                 callin.putExtra("pickup_location", obj.getString("pickupAddress"));
-                                callin.putExtra("TotalCharges", "00.00");
+                                callin.putExtra("deliveryAddress", obj.getString("deliveryAddress"));
+                                callin.putExtra("TotalCharges", obj.getString("TotalCharges"));
                                 callin.putExtra("Date", obj.getString("pickupDate"));
                                 callin.putExtra("Time", obj.getString("pickuptime"));
                                 callin.putExtra("Mobile", obj.getString("mobile"));
@@ -549,7 +551,7 @@ public class NavActivity extends AppCompatActivity
         Volley.newRequestQueue(this).add(stringRequest);
 
 
-    }*/
+    }
 
 /*    private void loadProducts() {
 

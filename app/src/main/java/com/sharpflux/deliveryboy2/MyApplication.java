@@ -13,7 +13,7 @@ public class MyApplication  extends Application {
     }
 
     public static void activityPaused() {
-        activityVisible = false;
+        activityVisible = true;
     }
 
     private static boolean activityVisible;
