@@ -522,6 +522,7 @@ public class NavActivity extends AppCompatActivity
                                 callin.putExtra("fromLong", obj.getString("fromLang"));
                                 callin.putExtra("ToLat", obj.getString("ToLat"));
                                 callin.putExtra("ToLong", obj.getString("ToLong"));
+                                callin.putExtra("DeliveryStatus", obj.getString("DeliveryStatus"));
                                 startActivity(callin);
                                 return;
                             }

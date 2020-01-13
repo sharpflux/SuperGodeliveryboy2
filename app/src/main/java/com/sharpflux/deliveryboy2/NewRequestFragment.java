@@ -366,7 +366,7 @@ public class NewRequestFragment extends Fragment {
                                 if(getContext()!=null) {
                                     intent = new Intent(getContext(), MapsActivity.class);
                                     intent.putExtra("pickup_location", product.getPickupAddress());
-                                    intent.putExtra("DropLocation", product.getDeliveryAddress());
+                                    intent.putExtra("deliveryAddress", product.getDeliveryAddress());
                                     intent.putExtra("fromLat", product.getFromLat());
                                     intent.putExtra("fromLong", product.getFromLang());
                                     intent.putExtra("DeliveryId", product.getDeliveryId());
@@ -380,6 +380,7 @@ public class NewRequestFragment extends Fragment {
                                     intent.putExtra("CustomerFullName", product.getCustomerFullName());
                                     intent.putExtra("CustomerId", product.getCustomerId());
                                     intent.putExtra("TotalCharges", product.getTotalCharges());
+                                    intent.putExtra("DeliveryStatus", "3");
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     getContext().startActivity(intent);
                                     Toast.makeText(getContext(), "DELIVERY ACCEPTED", Toast.LENGTH_SHORT).show();

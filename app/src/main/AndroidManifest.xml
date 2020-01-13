@@ -81,7 +81,7 @@
         <activity
             android:name=".SmSOtpActivity"
             android:label="ORDER COMPLETE OTP"
-            android:parentActivityName=".CallCustomerActivity" />
+           android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
