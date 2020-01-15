@@ -26,24 +26,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
+              <!--  <TextView
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Driver Duty"
                     android:textColor="@color/blackLight"
-                    android:textSize="@dimen/font_18" />
-                <Switch
+                    android:textSize="@dimen/font_18" />-->
+              <!--  <Switch
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_gravity="center"
                     android:id="@+id/switch1"
+                    android:textOff="OFF"
+                    android:textOn="ON"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textOff="Off"
-                    android:textOn="On"
                     android:theme="@style/SCBSwitch"
-                    />
+                    />-->
+
+                <Switch
+                    android:id="@+id/switchDriverDuty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:switchMinWidth="56dp"
+                    android:text="Driver Duty   "
+                    android:textSize="@dimen/font_18"
+                   />
             </LinearLayout>
 
             <TextView
@@ -54,7 +63,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:text="OFF"
                 android:textColor="@color/orange"
                 android:textSize="@dimen/font_18" />
 

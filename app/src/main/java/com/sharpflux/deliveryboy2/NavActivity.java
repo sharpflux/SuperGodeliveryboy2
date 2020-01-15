@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -97,6 +99,8 @@ public class NavActivity extends AppCompatActivity
 
     private DeliveryMainAdapter mAdapter;
     TextView navBarName, navMobileNumber;
+    DriverStatus myDatabase;
+    TextView txt_driver_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +147,14 @@ public class NavActivity extends AppCompatActivity
 
        // switch1 = findViewById(R.id.switch1);
       //  switch1.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+      //  txt_driver_status = findViewById(R.id.txt_driver_status);
+       /* Cursor myCursor=myDatabase.getAllData();
 
+        while (myCursor.moveToNext()) {
+            String DriverState= myCursor.getString(0);
+            txt_driver_status.setText(DriverState);
+
+        }*/
 
 
         setContentView(R.layout.activity_nav);
@@ -153,7 +164,10 @@ public class NavActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
+        /*SharedPreferences pref =getPreferences(Context.MODE_PRIVATE);
+        String driverStatus = pref.getString("status", " ");
+        txt_driver_status.setText(driverStatus);
+*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,7 +47,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+import static android.content.Context.MODE_PRIVATE;
+
+public class HomeFragment extends Fragment{
 
     TextView tvTotalEarnings, txt_driver_status;
     int deliveryBoyId = 0;
@@ -63,7 +67,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
     MyReceiver myReceiver;
 
     JSONArray array;
-    Switch switch1;
+    Switch switch2;
     List<DeliveryList> productList;
     RecyclerView recyclerView;
     MediaPlayer mMediaPlayer;
@@ -71,7 +75,9 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
     private HashMap<String, MediaPlayer> mHashMap = new HashMap();
 
     private boolean isReceiverRegistered = false;
-
+    String status;
+    //SharedPreferences preferences;
+    DriverStatus myDatabase;
 
 
     public HomeFragment() {
@@ -84,8 +90,8 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         // Inflate the layout for this fragment
-        switch1 = view.findViewById(R.id.switch1);
-        switch1.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+        switch2 = view.findViewById(R.id.switchDriverDuty);
+
 
         tvTotalEarnings = view.findViewById(R.id.tvTotalEarnings);
         txt_driver_status = view.findViewById(R.id.txt_driver_status);
@@ -99,13 +105,111 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         intentFilter.addAction(ServiceNoDelay.MY_ACTION);*/
         isReceiverRegistered = true;
 
+
+        myDatabase = new DriverStatus(getContext());
+        String res = myDatabase.GetLastStatus();
+        txt_driver_status.setText(res);
+        if(res.contains("ON")){
+            switch2.setChecked(true);
+        }
+        else
+            switch2.setChecked(false);
+
+
+
+
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter("custom-event-name"));
+
+        switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+
+
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "Now you are Online", Toast.LENGTH_LONG).show();
+                        txt_driver_status.setText("ON");
+                        myDatabase.StatusInsert("ON");
+                        switch2.setChecked(true);
+                /*if (myDatabase.GetLastStatus().equals("0"))
+                        myDatabase.StatusInsert("ON");
+                 else if(myDatabase.GetLastStatus().equals("OFF"))
+                    myDatabase.UpdateStatus("OFF");*/
+
+                        ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
+                        Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
+                        if (!isMyServiceRunning(mSensorService.getClass())) {
+                            getContext().startService(mServiceIntent);
+                        }
+                    }
+
+
+
+                } else {
+                    // The toggle is disabled
+
+
+
+                    Toast.makeText(getContext(), "Now you are Offline", Toast.LENGTH_LONG).show();
+                    txt_driver_status.setText("OFF");
+                    switch2.setChecked(false);
+                    myDatabase.StatusInsert("OFF");
+           /* if (myDatabase.GetLastStatus().equals("0"))
+                myDatabase.StatusInsert("OFF");
+            else if(myDatabase.GetLastStatus().equals("ON"))
+                myDatabase.UpdateStatus("OFF");
+*/
+
+                    if (getContext() != null) {
+                        ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
+                        Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
+                        if (isMyServiceRunning(mSensorService.getClass())) {
+                            getContext().stopService(mServiceIntent);
+                        }
+                    }
+                }
+
+            }
+        });
+
+
+
+     /*  txt_driver_status.setText(res);
+       if(res.equals("ON")){
+           switch1.setEnabled(true);
+       }
+        switch1.setEnabled(false);
+*/
+
+
+
+       /* if (res.contains("0")) {
+            myDatabase.UpdateStatus("OFF");
+        }
+
+        if (res.equals("ON")) {
+            txt_driver_status.setText("ON");
+            switch1.setChecked(true);
+            Toast.makeText(getContext(), "ON", Toast.LENGTH_SHORT).show();
+        } else {
+            txt_driver_status.setText("OFF");
+            switch1.setChecked(false);
+            Toast.makeText(getContext(), "OFF", Toast.LENGTH_SHORT).show();
+        }*/
 
 
 
    /*     LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver,
                 new IntentFilter(ServiceNoDelay.MY_ACTION));*/
+
+
+
+      /*  preferences = this.getActivity().getSharedPreferences("DriverDutyStatus", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(status, txt_driver_status.toString());
+        editor.commit();*/
+
 
         productList = new ArrayList<DeliveryList>();
 
@@ -124,16 +228,27 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
             mMediaPlayer = null;
         }
 
+        /*Cursor myCursor = myDatabase.getAllData();
+        while (myCursor.moveToNext()) {
+            String DriverState = myCursor.getString(0);
+            txt_driver_status.setText(DriverState);
 
-        HomeFragment.AsyncTaskRunner runner = new HomeFragment.AsyncTaskRunner();
+        }
+*/
+
+        AsyncTaskRunner runner = new AsyncTaskRunner();
         String sleepTime = "1";
         runner.execute(sleepTime);
 
         recyclerView = view.findViewById(R.id.recylcerView1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         return view;
     }
+
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         int counter = 0;
 
@@ -144,26 +259,28 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
             String datapassed = intent.getStringExtra("List");
             String visibleFrag = Visible();
 
+
             Log.e("Visible", "socketresponse: " + visibleFrag);
-           // if (visibleFrag.equals("android:switcher:2131362191:0")) {
-                //pushAppToForground();
-                Fragment fragment = new NewRequestFragment();
-                FragmentManager fm = getFragmentManager();
-                if(fm!=null) {
-                    bundle.putString("List", datapassed);
-                    bundle.putString("counter", String.valueOf(counter));
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    fragment.setArguments(bundle);
-                    transaction.replace(R.id.frame, fragment,"NewRequest");
-                    transaction.commitAllowingStateLoss();
-                    return;
-                }
+            // if (visibleFrag.equals("android:switcher:2131362191:0")) {
+            //pushAppToForground();
+            Fragment fragment = new NewRequestFragment();
+            FragmentManager fm = getFragmentManager();
+            if (fm != null) {
+                bundle.putString("List", datapassed);
+                bundle.putString("counter", String.valueOf(counter));
+                FragmentTransaction transaction = fm.beginTransaction();
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment, "NewRequest");
+                transaction.commitAllowingStateLoss();
+                return;
+            }
 
             //}
             //Toast.makeText(context,datapassed, Toast.LENGTH_SHORT).show();
+
+
         }
     };
-
 
 
     private class MyReceiver extends BroadcastReceiver {
@@ -189,46 +306,48 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                 String visibleFrag = getVisibleFragment();
                 Log.e("Visible", "socketresponse: " + visibleFrag);
                 if (!visibleFrag.equals("NewRequestFragment")) {
-                        Fragment fragment = new NewRequestFragment();
-                        FragmentManager fm = getFragmentManager();
-                        if(fm!=null) {
-                            Log.e("Visible", "PUSHING : " + visibleFrag);
+                    Fragment fragment = new NewRequestFragment();
+                    FragmentManager fm = getFragmentManager();
+                    if (fm != null) {
+                        Log.e("Visible", "PUSHING : " + visibleFrag);
 
-                            bundle.putString("List", datapassed);
-                            bundle.putString("counter", String.valueOf(counter));
-                            FragmentTransaction transaction = fm.beginTransaction();
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.frame, fragment);
-                            transaction.commitAllowingStateLoss();
-                            return;
-                        }
+                        bundle.putString("List", datapassed);
+                        bundle.putString("counter", String.valueOf(counter));
+                        FragmentTransaction transaction = fm.beginTransaction();
+                        fragment.setArguments(bundle);
+                        transaction.replace(R.id.frame, fragment);
+                        transaction.commitAllowingStateLoss();
+                        return;
+                    }
 
                 }
 
 
             }
 
+
         }
 
     }
 
     @Override
-    public void onSaveInstanceState( Bundle outState ) {
+    public void onSaveInstanceState(Bundle outState) {
 
     }
 
 
-    public String Visible(){
-        if(getContext()!=null) {
+    public String Visible() {
+        if (getContext() != null) {
 
             Fragment page = ((AppCompatActivity) getContext()).getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.vp_pages + ":" + 0);
-             return     page.getTag();
+            return page.getTag();
         }
         return " ";
     }
+
     public String getVisibleFragment() {
 
-        if(getContext()!=null) {
+        if (getContext() != null) {
             FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
             List<Fragment> fragments = fragmentManager.getFragments();
             if (fragments != null) {
@@ -257,7 +376,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
     private void pushAppToForground() {
         if (!MyApplication.isActivityVisible()) {
 
-            if(getContext()!=null) {
+            if (getContext() != null) {
                 KeyguardManager myKM = (KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE);
                 //if (myKM.inKeyguardRestrictedInputMode()) {
                 Window window = getActivity().getWindow();
@@ -272,14 +391,20 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
 
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+    /*public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
         if (switch1.isChecked()) {
 
-            if(getContext()!=null) {
+            if (getContext() != null) {
                 Toast.makeText(getContext(), "Now you are Online", Toast.LENGTH_LONG).show();
                 txt_driver_status.setText("ON");
+                myDatabase.StatusInsert("ON");
+                switch1.setChecked(true);
+                *//*if (myDatabase.GetLastStatus().equals("0"))
+                        myDatabase.StatusInsert("ON");
+                 else if(myDatabase.GetLastStatus().equals("OFF"))
+                    myDatabase.UpdateStatus("OFF");*//*
 
                 ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
                 Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
@@ -287,23 +412,27 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                     getContext().startService(mServiceIntent);
                 }
             }
-           /* Intent startIntent = new Intent(getContext(), ServiceNoDelay.class);
+           *//* Intent startIntent = new Intent(getContext(), ServiceNoDelay.class);
             startIntent.setAction("MyService");
-           getContext().startService(startIntent);*/
+           getContext().startService(startIntent);*//*
 
-          /*  Intent intent = new Intent(getContext(), BackgroundService.class);
+          *//*  Intent intent = new Intent(getContext(), BackgroundService.class);
             intent.setAction("MyService");
-            getContext().bindService(intent, m_serviceConnection, Context.BIND_AUTO_CREATE);*/
+            getContext().bindService(intent, m_serviceConnection, Context.BIND_AUTO_CREATE);*//*
 
 
         } else {
             Toast.makeText(getContext(), "Now you are Offline", Toast.LENGTH_LONG).show();
             txt_driver_status.setText("OFF");
-            if (mHashMap != null && mHashMap.size() > 0) {
-                mHashMap.clear();
-            }
+            switch1.setChecked(false);
+            myDatabase.StatusInsert("OFF");
+           *//* if (myDatabase.GetLastStatus().equals("0"))
+                myDatabase.StatusInsert("OFF");
+            else if(myDatabase.GetLastStatus().equals("ON"))
+                myDatabase.UpdateStatus("OFF");
+*//*
 
-            if(getContext()!=null) {
+            if (getContext() != null) {
                 ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
                 Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
                 if (isMyServiceRunning(mSensorService.getClass())) {
@@ -311,7 +440,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                 }
             }
         }
-    }
+    }*/
 
     private void setDynamicFragmentToTabLayout() {
         User user = SharedPrefManager.getInstance(getContext()).getUser();
@@ -340,6 +469,7 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
                                 myCategoryTypeAdapter = new HistoryFragmentAdapter(getContext(), categoryList);
                                 mRecyclerView.setAdapter(myCategoryTypeAdapter);*/
                                 tvTotalEarnings.setText("₹ " + userJson.getString("ApiDeliveryBoyEarning"));
+
 
                             }
 
@@ -417,12 +547,12 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
         Log.e("DEBUG", "onResume of LoginFragment");
 
 
-        if(isReceiverRegistered){
-            try{
+        if (isReceiverRegistered) {
+            try {
                 IntentFilter filter = new IntentFilter();
-                getActivity().registerReceiver(myReceiver,filter);
+                getActivity().registerReceiver(myReceiver, filter);
                 isReceiverRegistered = true;// set it back to false.
-            } catch (Exception e){
+            } catch (Exception e) {
                 // already unregistered
             }
         }
@@ -432,11 +562,11 @@ public class HomeFragment extends Fragment implements CompoundButton.OnCheckedCh
     @Override
     public void onPause() {
         Log.e("DEBUG", "OnPause of loginFragment");
-        if(isReceiverRegistered){
-            try{
+        if (isReceiverRegistered) {
+            try {
                 getContext().unregisterReceiver(myReceiver);
-            isReceiverRegistered = false;// set it back to false.
-            } catch (Exception e){
+                isReceiverRegistered = false;// set it back to false.
+            } catch (Exception e) {
                 // already unregistered
             }
         }
