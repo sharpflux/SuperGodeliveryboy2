@@ -364,6 +364,11 @@ public class NewRequestFragment extends Fragment {
 
                                 Intent intent=new Intent();
                                 if(getContext()!=null) {
+
+                                    Intent intent1 = new Intent(getContext(), LocationMonitoringService.class);
+                                    intent1.putExtra("DeliveryId", obj.getInt("DeliveryId"));
+                                    getContext().startService(intent1);
+
                                     intent = new Intent(getContext(), MapsActivity.class);
                                     intent.putExtra("pickup_location", product.getPickupAddress());
                                     intent.putExtra("deliveryAddress", product.getDeliveryAddress());
