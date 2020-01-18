@@ -123,7 +123,7 @@ public class ServiceNoDelay extends Service {
                             intent.putExtra("List", array.toString());
                             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 
-                           // Toast.makeText(getApplicationContext(), array.toString(), Toast.LENGTH_SHORT).show();
+                           Toast.makeText(getApplicationContext(), "*", Toast.LENGTH_SHORT).show();
 
 
                         } catch (JSONException e) {

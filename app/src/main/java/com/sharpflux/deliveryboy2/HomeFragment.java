@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         // Inflate the layout for this fragment
-        switch2 = view.findViewById(R.id.switchDriverDuty);
+        switch2 = view.findViewById(R.id.switchDriverDuty2);
 
 
         tvTotalEarnings = view.findViewById(R.id.tvTotalEarnings);
@@ -111,11 +111,30 @@ public class HomeFragment extends Fragment{
         txt_driver_status.setText(res);
         if(res.contains("ON")){
             switch2.setChecked(true);
+            ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
+            Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
+            if (!isMyServiceRunning(mSensorService.getClass())) {
+                getContext().startService(mServiceIntent);
+            }
         }
-        else
+        else {
             switch2.setChecked(false);
+            if (getContext() != null) {
+                ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
+                Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
+                if (isMyServiceRunning(mSensorService.getClass())) {
+                    getContext().stopService(mServiceIntent);
+                }
+            }
+        }
 
-
+        if (getContext() != null) {
+            LocationMonitoringService mSensorService = new LocationMonitoringService();
+            Intent mServiceIntent = new Intent(getContext(), mSensorService.getClass());
+            if (isMyServiceRunning(mSensorService.getClass())) {
+                getContext().stopService(mServiceIntent);
+            }
+        }
 
 
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,

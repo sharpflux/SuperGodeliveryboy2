@@ -86,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accept_delivery_test);
 
-        arrivedLlyt = findViewById(R.id.arrivedLlyt);
+        //arrivedLlyt = findViewById(R.id.arrivedLlyt);
         cancelLlyt = findViewById(R.id.cancelLlyt);
         navigationIv = findViewById(R.id.navigationIv);
         navigationDrop = findViewById(R.id.navigationDrop);
@@ -283,7 +283,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         listPoints = new ArrayList<>();
 
 
-
+       // Notification("38");
 
     }
 

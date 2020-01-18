@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -185,7 +186,7 @@ public class LocationMonitoringService extends Service implements
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
+                            Toast.makeText(getApplicationContext(), "Location Updated", Toast.LENGTH_SHORT).show();
                         }
                     },
                     new Response.ErrorListener() {
