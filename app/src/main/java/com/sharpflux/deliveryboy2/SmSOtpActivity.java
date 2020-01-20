@@ -257,6 +257,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
 
         if (bundle != null) {
             deliveryid = bundle.getInt("DeliveryId");
+            //
         }
 
         User user = SharedPrefManager.getInstance(this).getUser();
