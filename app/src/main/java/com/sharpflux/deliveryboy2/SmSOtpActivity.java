@@ -72,6 +72,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //if user pressed "yes", then he is allowed to exit from application
+
                         CompleteDelivery();
                     }
                 });
@@ -279,7 +280,6 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
 
                                 Intent intent = new Intent(SmSOtpActivity.this, LocationMonitoringService.class);
                                 stopService(intent);
-
 
                                 final Dialog dialog = new Dialog(SmSOtpActivity.this);
                                 dialog.setContentView(R.layout.custom_dialog);
