@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +46,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
     String otp;
     TextView smstonumber;
     private Bundle bundle1;
-    TextView smstonumber,txt_resendOtp,tv_timer1;
+    TextView txt_resendOtp,tv_timer1;
     MyCountDownTimer1 myCountDownTimer1;
     MyCountDownTimer2 myCountDownTimer2;
     @Override
