@@ -41,8 +41,10 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
     private int deliveryid;
     private Button btnValidate;
     AlertDialog.Builder builder;
-    String Mobile="";
+    String Mobile="",RealCustomerId="";
     String otp;
+    TextView smstonumber;
+    private Bundle bundle1;
     TextView smstonumber,txt_resendOtp,tv_timer1;
     MyCountDownTimer1 myCountDownTimer1;
     MyCountDownTimer2 myCountDownTimer2;
@@ -58,6 +60,12 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         editText_four = findViewById(R.id.pin_forth_edittext);
         smstonumber=findViewById(R.id.smstonumber);
 
+        bundle1 = getIntent().getExtras();
+        if(bundle1!=null){
+            RealCustomerId= bundle1.getString("CustomerId");
+        }
+
+
 
         txt_resendOtp=findViewById(R.id.txt_resendOtp);
         tv_timer1=findViewById(R.id.tv_timer1);
@@ -70,6 +78,9 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         editText_four.addTextChangedListener(this);
         editText_one.setFocusable(true);
         SendOTP();
+
+
+
         builder = new AlertDialog.Builder(this);
 
 
@@ -196,7 +207,36 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
+    public void Notification(String CustomerId,String message,String title) {
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_SENNOTIFICATIONTOCUSTOMER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("ERROR", error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("message", message);
+                params.put("title", title);
+                params.put("CustomerId", CustomerId);
+                return params;
+
+            }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
+    }
     @Override
     public void afterTextChanged(Editable editable) {
         if (editable.length() == 1) {
@@ -362,10 +402,12 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
 
         final String deliveryidobj;
         final String customerIdobj;
+
         bundle = getIntent().getExtras();
 
         if (bundle != null) {
             deliveryid = bundle.getInt("DeliveryId");
+
             //
         }
 
@@ -388,6 +430,12 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
                             //if no error in response
                             if (!obj.getBoolean("error")) {
 
+                                bundle1 = getIntent().getExtras();
+                                if(bundle1!=null){
+                                    RealCustomerId= bundle1.getString("CustomerId");
+                                }
+
+                                Notification(RealCustomerId,"Your Parcel Droped Successfully","PARCEL DROPEED");
                                 Intent intent = new Intent(SmSOtpActivity.this, LocationMonitoringService.class);
                                 stopService(intent);
 

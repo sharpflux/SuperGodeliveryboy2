@@ -77,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int deliveryid;
     TextView txtEstimateTime, txtDistance, txtPickupLocation, txtDropLocation, cardview_rupees;
     User user;
-    String fromLat = "", fromLong = "", ToLat = "", ToLong = "";
+    String fromLat = "", fromLong = "", ToLat = "", ToLong = "",RealCustomerId="";
     LinearLayout callCustLlyt, arrivedLlyt, cancelLlyt, pickedLlyt, lr_call, lr_drop;
     ImageView navigationIv, navigationDrop;
 
@@ -110,25 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-
-        //buttonAcceptRequest = findViewById(R.id.buttonAcceptRequest);
-        // btnCancelDelivery = findViewById(R.id.btnCancelDelivery);
-
-        //arrowback = findViewById(R.id.arrow_back_img);
-        // lr_nav = findViewById(R.id.lr_nav);
-
         user = SharedPrefManager.getInstance(this).getUser();
-
-        /*arrowback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent backin = new Intent(MapsActivity.this, NavActivity.class);
-                startActivity(backin);
-            }
-        });
-
-
-*/
 
         bundle1 = getIntent().getExtras();
         if(bundle1!=null){
@@ -146,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 pickedLlyt.setVisibility(View.GONE);
             }
 
-
+            RealCustomerId=bundle1.getString("CustomerId");
         }
 
 
@@ -209,6 +191,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent callin = new Intent(MapsActivity.this, SmSOtpActivity.class);
                     callin.putExtra("DeliveryId", bundle1.getInt("DeliveryId"));
                     callin.putExtra("Mobile", bundle1.getString("Mobile"));
+                    callin.putExtra("CustomerId", bundle1.getString("CustomerId"));
                     startActivity(callin);
 
                 }
@@ -331,6 +314,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         pickedLlyt.setVisibility(View.GONE);
 
 
+                                        if(bundle1!=null)
+                                            RealCustomerId=bundle1.getString("CustomerId");
+
+                                        Notification(RealCustomerId,"Your parcel picked sucessfully !! ","PARCEL PICKED");
                                         AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                                         builder.setCancelable(false);
                                         builder.setTitle("PARCEL");
@@ -482,29 +469,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private String getRequestUrl(String fromLatLong, String toLatLong) {
-        //Value of origin
-      /*  String str_org = "origin=" + origin.latitude +","+origin.longitude;
-        //Value of destination
-        String str_dest = "destination=" + dest.latitude+","+dest.longitude;*/
 
-
-        // String str_org = "origin=" + origin.latitude +","+origin.longitude;
-        //Value of destination
-        //     String str_dest = "destination=" + dest.latitude+","+dest.longitude;
-
-        //Set value enable the sensor
-        String sensor = "sensor=false";
-        //Mode for find direction
         String mode = "mode=driving";
 
         String key = "key=AIzaSyBDl1LtAS21s-0JkYMEC0JgMLKf5jyJqi80";
-        //Build the full param
-        //  String param = str_org +"&" + str_dest + "&" +sensor+"&" +mode+"&" +key;
-        //Output format
-        String output = "json";
-        //Create url to request
-        // String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
 
+        String output = "json";
         String[] latlong = fromLatLong.split(",");
 
         double latitude = Double.parseDouble(latlong[0]);
@@ -520,22 +490,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latitude = Double.parseDouble(latlong2[0]);
         longitude = Double.parseDouble(latlong2[1]);
         LatLng location2 = new LatLng(latitude, longitude);
-        //TextView txtEstimateKm=(TextView) findViewById(R.id.txtEstimateKm);
-
-        // Double distanceKm=distance (Double.parseDouble(latlong[0]), Double.parseDouble(latlong[1]), Double.parseDouble(latlong2[0]), Double.parseDouble(latlong2[1]), "K");
-        // DecimalFormat precision = new DecimalFormat("0.00");
-        //  txtEstimateKm.setText(precision.format(distanceKm)+"Km" );
-
         markerOptions.position(location2);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
-
         mMap.addMarker(markerOptions);
         String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + latlong[0] + "," + latlong[1] + "&destination=" + latlong2[0] + "," + latlong2[1] + "&travelmode=driving&sensor=false&key=AIzaSyD3lPCpXWKTSMLC4wCL4rXmatN3f9M4lt4";
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
-
-
         return url;
     }
 
@@ -829,28 +787,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }*/
 
-    public void Notification(String CustomerId) {
+    public void Notification(String CustomerId,String message,String title) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_SENNOTIFICATIONTOCUSTOMER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-                        try {
-
-                            //converting response to json object
-                            JSONObject obj = new JSONObject(response);
-
-                            //if no error in response
-                            if (!obj.getBoolean("error")) {
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-                        }
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -863,7 +806,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("CustomerFullName", user.getUsername());
+                params.put("message", message);
+                params.put("title", title);
                 params.put("CustomerId", CustomerId);
                 return params;
 

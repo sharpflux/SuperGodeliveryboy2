@@ -531,6 +531,7 @@ public class NavActivity extends AppCompatActivity
                                 callin.putExtra("Time", obj.getString("pickuptime"));
                                 callin.putExtra("Mobile", obj.getString("mobile"));
                                 callin.putExtra("CustomerFullName", obj.getString("CustomerFullName"));
+                                callin.putExtra("CustomerId",obj.getString("CustomerId"));
                                 callin.putExtra("DeliveryId", obj.getInt("DeliveryId"));
                                 callin.putExtra("fromLat", obj.getString("fromLat"));
                                 callin.putExtra("fromLong", obj.getString("fromLang"));
