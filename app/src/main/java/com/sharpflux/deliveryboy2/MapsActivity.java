@@ -102,6 +102,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtDropLocation = findViewById(R.id.txtDropLocation);
         cardview_rupees = findViewById(R.id.cardview_rupees);
 
+        if (getApplicationContext() != null) {
+            ServiceNoDelay mSensorService = new ServiceNoDelay(getApplicationContext());
+            Intent mServiceIntent = new Intent(getApplicationContext(), mSensorService.getClass());
+            if (isMyServiceRunning(mSensorService.getClass())) {
+                getApplicationContext().stopService(mServiceIntent);
+            }
+        }
+
 
         //buttonAcceptRequest = findViewById(R.id.buttonAcceptRequest);
         // btnCancelDelivery = findViewById(R.id.btnCancelDelivery);
