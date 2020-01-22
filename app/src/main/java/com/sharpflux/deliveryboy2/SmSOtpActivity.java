@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Telephony;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +43,9 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
     AlertDialog.Builder builder;
     String Mobile="";
     String otp;
-    TextView smstonumber;
+    TextView smstonumber,txt_resendOtp,tv_timer1;
+    MyCountDownTimer1 myCountDownTimer1;
+    MyCountDownTimer2 myCountDownTimer2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,10 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         editText_four = findViewById(R.id.pin_forth_edittext);
         smstonumber=findViewById(R.id.smstonumber);
 
+
+        txt_resendOtp=findViewById(R.id.txt_resendOtp);
+        tv_timer1=findViewById(R.id.tv_timer1);
+
         btnValidate = findViewById(R.id.btnValidate);
 
         editText_one.addTextChangedListener(this);
@@ -62,6 +71,23 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         editText_one.setFocusable(true);
         SendOTP();
         builder = new AlertDialog.Builder(this);
+
+
+        myCountDownTimer1 = new MyCountDownTimer1(59000, 1000);
+        myCountDownTimer1.start();
+        txt_resendOtp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //RegenerateOTP(bundle.getString("MobileNo"));
+
+                myCountDownTimer1.onFinish();
+                RegenerateOTP(bundle.getString("MobileNo"));
+
+
+            }
+        });
+
+
         btnValidate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,7 +233,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
             Mobile = bundle.getString("Mobile");
         }
 
-        smstonumber.setText("Please type the verification code sent to +" +Mobile);
+        smstonumber.setText("Please type the verification code sent to +91 " +Mobile);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_OTP,
                 new Response.Listener<String>() {
@@ -241,6 +267,89 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
                 Map<String, String> params = new HashMap<>();
                 params.put("OTPMobileNo", Mobile);
                 params.put("OTPType", "DELIVERED");
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+
+
+    private void RegenerateOTP(String ToMobile) {
+
+
+        bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            Mobile = bundle.getString("Mobile");
+        }
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_OTP,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting response to json object
+                            JSONObject obj = new JSONObject(response);
+                            //if no error in response
+                            if (!obj.getBoolean("error")) {
+                                otp = obj.getString("OTP");
+
+                                myCountDownTimer2 = new MyCountDownTimer2(59000, 1000);
+                                myCountDownTimer2.start();
+
+                                myCountDownTimer2.onFinish();
+
+
+                            } else {
+                                builder.setMessage(obj.getString("message"))
+                                        .setCancelable(false)
+
+                                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //  Action for 'NO' Button
+                                                dialog.cancel();
+
+                                            }
+                                        });
+
+                                AlertDialog alert = builder.create();
+                                alert.setTitle("Error");
+                                alert.show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        builder.setMessage(error.getMessage())
+                                .setCancelable(false)
+
+                                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+
+                                    }
+                                });
+
+                        AlertDialog alert = builder.create();
+                        alert.setTitle("Error");
+                        alert.show();
+                        // Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("OTPMobileNo", Mobile);
+                params.put("OTPType", "OTP");
                 return params;
             }
         };
@@ -375,4 +484,69 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
         super.onResume();
         MyApplication.activityResumed();
     }
+
+
+
+    public class MyCountDownTimer1 extends CountDownTimer {
+        //public int counter=59;
+        public MyCountDownTimer1(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+
+            NumberFormat f = new DecimalFormat("00");
+            long hour = (millisUntilFinished / 3600000) % 24;
+            long min = (millisUntilFinished / 60000) % 60;
+            long sec = (millisUntilFinished / 1000) % 60;
+
+            tv_timer1.setText(f.format(min) + ":" + f.format(sec));
+            txt_resendOtp.setVisibility(View.GONE);
+            // f.format(hour)
+
+        }
+
+        @Override
+        public void onFinish() {
+            tv_timer1.setText("");
+            txt_resendOtp.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    public class MyCountDownTimer2 extends CountDownTimer {
+        public int counter=59;
+        public MyCountDownTimer2(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+
+            NumberFormat f = new DecimalFormat("00");
+            long hour = (millisUntilFinished / 3600000) % 24;
+            long min = (millisUntilFinished / 60000) % 60;
+            long sec = (millisUntilFinished / 1000) % 60;
+
+            tv_timer1.setText(f.format(min) + ":" + f.format(sec));
+            txt_resendOtp.setVisibility(View.GONE);
+
+        }
+
+        @Override
+        public void onFinish() {
+            tv_timer1.setText("");
+
+            txt_resendOtp.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
+
+
+
 }
