@@ -7,8 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,8 +45,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment{
 
@@ -73,7 +70,7 @@ public class HomeFragment extends Fragment{
     MediaPlayer mMediaPlayer;
     private static int INTERVAL_DECLINE = 50000;
     private HashMap<String, MediaPlayer> mHashMap = new HashMap();
-
+LinearLayout ClickableCheck;
     private boolean isReceiverRegistered = false;
     String status;
     //SharedPreferences preferences;
@@ -95,6 +92,7 @@ public class HomeFragment extends Fragment{
 
         tvTotalEarnings = view.findViewById(R.id.tvTotalEarnings);
         txt_driver_status = view.findViewById(R.id.txt_driver_status);
+        ClickableCheck=view.findViewById(R.id.ClickableCheck);
         categoryList = new ArrayList<>();
         // mSocketStickyIntent = new Intent(getContext(),BackgroundService.class);
 
@@ -109,6 +107,14 @@ public class HomeFragment extends Fragment{
         myDatabase = new DriverStatus(getContext());
         String res = myDatabase.GetLastStatus();
         txt_driver_status.setText(res);
+
+        ClickableCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "CLICKED", Toast.LENGTH_LONG).show();
+            }
+        });
+
         if(res.contains("ON")){
             switch2.setChecked(true);
             ServiceNoDelay mSensorService = new ServiceNoDelay(getContext());
@@ -148,7 +154,7 @@ public class HomeFragment extends Fragment{
 
                     if (getContext() != null) {
                         Toast.makeText(getContext(), "Now you are Online", Toast.LENGTH_LONG).show();
-                        txt_driver_status.setText("ON");
+                       txt_driver_status.setText("ON");
                         myDatabase.StatusInsert("ON");
                         switch2.setChecked(true);
                 /*if (myDatabase.GetLastStatus().equals("0"))
@@ -276,27 +282,48 @@ public class HomeFragment extends Fragment{
             counter++;
             Bundle bundle = new Bundle();
             String datapassed = intent.getStringExtra("List");
-            String visibleFrag = Visible();
-
-
-            Log.e("Visible", "socketresponse: " + visibleFrag);
-            // if (visibleFrag.equals("android:switcher:2131362191:0")) {
-            //pushAppToForground();
-            Fragment fragment = new NewRequestFragment();
-            FragmentManager fm = getFragmentManager();
-            if (fm != null) {
-                bundle.putString("List", datapassed);
-                bundle.putString("counter", String.valueOf(counter));
-                FragmentTransaction transaction = fm.beginTransaction();
-                fragment.setArguments(bundle);
-                transaction.replace(R.id.frame, fragment, "NewRequest");
-                transaction.commitAllowingStateLoss();
-                return;
+            String Visible =getVisibleFragment();
+            if(!datapassed.equals("[]")) {
+                String visibleFrag = Visible();
+                Fragment fragment = new NewRequestFragment();
+                FragmentManager fm = getFragmentManager();
+                if (fm != null) {
+                    bundle.putString("List", datapassed);
+                    bundle.putString("counter", String.valueOf(counter));
+                    FragmentTransaction transaction = fm.beginTransaction();
+                    fragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, fragment, "NewRequest");
+                    //transaction.commitAllowingStateLoss();
+                    transaction.commit();
+                    return;
+                }
             }
+           else {
+                Fragment fragment = new HomeFragment();
+                FragmentManager fm = getFragmentManager();
+                if (fm != null) {
+                  FragmentTransaction transaction = fm.beginTransaction();
+                     /* transaction.replace(R.id.frame, fragment, "Home");
+                    transaction.commit();
+*/
 
-            //}
-            //Toast.makeText(context,datapassed, Toast.LENGTH_SHORT).show();
+                    transaction.detach(fragment);
+                    transaction.replace(R.id.frame, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
+
+                  /*  fm.beginTransaction()
+                            .remove(fm.findFragmentById(R.id.content)) // resolves to A_Fragment instance
+                            .add(R.id.frame, fragment, "Home")
+                            .addToBackStack("a")
+                            .commit();
+*/
+
+
+
+                }
+            }
 
         }
     };
@@ -363,6 +390,7 @@ public class HomeFragment extends Fragment{
         }
         return " ";
     }
+
 
     public String getVisibleFragment() {
 
@@ -544,14 +572,16 @@ public class HomeFragment extends Fragment{
 
         @Override
         protected void onPostExecute(String result) {
-            progressDialog.dismiss();
+            if ((progressDialog != null) && progressDialog.isShowing()) { progressDialog.dismiss();}
         }
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(getContext(),
-                    "Loading...",
-                    "");
+            if ((progressDialog != null) && progressDialog.isShowing()) {
+                progressDialog = ProgressDialog.show(getContext(),
+                        "Loading...",
+                        "");
+            }
         }
 
         @Override

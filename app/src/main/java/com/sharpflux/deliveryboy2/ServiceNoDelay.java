@@ -9,10 +9,14 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -124,6 +128,8 @@ public class ServiceNoDelay extends Service {
                             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 
                            Toast.makeText(getApplicationContext(), "*", Toast.LENGTH_SHORT).show();
+
+
 
 
                         } catch (JSONException e) {

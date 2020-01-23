@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_marginTop="100dp"
     tools:context="com.sharpflux.deliveryboy2.NavActivity">
 
 
@@ -112,6 +112,7 @@
                 android:tint="@color/quantum_grey" />
 
             <LinearLayout
+                android:id="@+id/ClickableCheck"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center|start"

@@ -351,7 +351,7 @@ public class DeliveryMainAdapter extends RecyclerView.Adapter<DeliveryMainAdapte
                                 Fragment fragment = new HomeFragment();
                                 FragmentManager fm = ((AppCompatActivity)mCtx).getSupportFragmentManager();;
                                 FragmentTransaction transaction = fm.beginTransaction();
-                                transaction.replace(R.id.FragmentContain2, fragment);
+                                transaction.replace(R.id.frame, fragment);
                                 transaction.commit();
 
                                 Toast.makeText(mCtx, "DELIVERY DECLINE", Toast.LENGTH_SHORT).show();

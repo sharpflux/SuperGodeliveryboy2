@@ -169,7 +169,7 @@ public class NavActivity extends AppCompatActivity
         txt_driver_status.setText(driverStatus);
 */
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -244,7 +244,7 @@ public class NavActivity extends AppCompatActivity
         PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
         vp_pages.setAdapter(pagerAdapter);
 
-        TabLayout tbl_pages= (TabLayout) findViewById(R.id.tbl_pages);
+        TabLayout tbl_pages= (TabLayout) findViewById(R.id.tab_layout);
         tbl_pages.setupWithViewPager(vp_pages);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -459,7 +459,7 @@ public class NavActivity extends AppCompatActivity
             SharedPrefManager.getInstance(getApplicationContext()).logout();
 
         }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

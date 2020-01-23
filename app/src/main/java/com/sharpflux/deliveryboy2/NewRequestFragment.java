@@ -91,23 +91,19 @@ public class NewRequestFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rec_newRequest);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         counter++;
         if (extras != null) {
             try {
                 array = new JSONArray(extras.getString("List").toString());
                 String datapassed = extras.getString("List");
-               /* if(extras.getString("counter").equals("1")) {
-                    mMediaPlayer = MediaPlayer.create(getActivity(), R.raw.ring_tone_final);
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mMediaPlayer.setLooping(true);
-
-                }*/
                 adapter = new DeliveryMainAdapter(getContext(), productList, mMediaPlayer, mHashMap,NewRequestFragment.this);
                 recyclerView.setAdapter(adapter);
-
-
-                if(datapassed!="[]" && datapassed!=null)
+                if(!datapassed.equals("[]"))
                 {
+                    String visible=getVisibleFragment();
+
                     for (int i = 0; i < array.length(); i++) {
                         //getting product object from json array
                         JSONObject product = array.getJSONObject(i);
@@ -146,13 +142,13 @@ public class NewRequestFragment extends Fragment {
                     }
                 }
                 else {
-                   // mMediaPlayer.stop();
                     stopAllRingtone();
+                   /* String visible=getVisibleFragment();
                     Fragment fragment = new HomeFragment();
                     FragmentManager fm = ((AppCompatActivity)getContext()).getSupportFragmentManager();;
                     FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.FragmentContain2, fragment,"Home");
-                    transaction.commit();
+                    transaction.replace(R.id.frame, fragment,"Home");
+                    transaction.commit();*/
                 }
 
             } catch (JSONException e) {
@@ -417,5 +413,20 @@ public class NewRequestFragment extends Fragment {
         };
 
         VolleySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
+    }
+
+    public String getVisibleFragment() {
+
+        if (getContext() != null) {
+            FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+            List<Fragment> fragments = fragmentManager.getFragments();
+            if (fragments != null) {
+                for (Fragment fragment : fragments) {
+                    if (fragment != null && fragment.isVisible())
+                        return fragment.getTag();
+                }
+            }
+        }
+        return " ";
     }
 }
