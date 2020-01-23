@@ -179,6 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .parse("google.navigation:q=" + fromLat + "," + fromLong + "&mode=d"));
                 navigation.setPackage("com.google.android.apps.maps");
                 startActivityForResult(navigation, 1234);
+                //
 
             }
         });
