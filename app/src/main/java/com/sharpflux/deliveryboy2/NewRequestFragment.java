@@ -91,8 +91,6 @@ public class NewRequestFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rec_newRequest);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
         counter++;
         if (extras != null) {
             try {
@@ -143,12 +141,15 @@ public class NewRequestFragment extends Fragment {
                 }
                 else {
                     stopAllRingtone();
-                   /* String visible=getVisibleFragment();
                     Fragment fragment = new HomeFragment();
-                    FragmentManager fm = ((AppCompatActivity)getContext()).getSupportFragmentManager();;
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.frame, fragment,"Home");
-                    transaction.commit();*/
+                    FragmentManager fm = getFragmentManager();
+                    if (fm != null) {
+                        FragmentTransaction transaction = fm.beginTransaction();
+                        transaction.detach(fragment);
+                        transaction.replace(R.id.frame, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
                 }
 
             } catch (JSONException e) {

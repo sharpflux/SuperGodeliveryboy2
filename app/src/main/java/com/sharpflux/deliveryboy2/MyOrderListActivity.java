@@ -53,7 +53,7 @@ public class MyOrderListActivity extends AppCompatActivity {
         myOrdersRecyView.setLayoutManager(layoutManager3);
         //myOrdersRecyView.setItemAnimator(new DefaultItemAnimator());
 
-        setTitle("My Order");
+        setTitle("My Rides");
         MyOrderListActivity.AsyncTaskRunner runner = new MyOrderListActivity.AsyncTaskRunner();
         String sleepTime = "1";
         runner.execute(sleepTime);

@@ -303,25 +303,10 @@ LinearLayout ClickableCheck;
                 FragmentManager fm = getFragmentManager();
                 if (fm != null) {
                   FragmentTransaction transaction = fm.beginTransaction();
-                     /* transaction.replace(R.id.frame, fragment, "Home");
-                    transaction.commit();
-*/
-
-                    transaction.detach(fragment);
+                     transaction.detach(fragment);
                     transaction.replace(R.id.frame, fragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
-
-
-                  /*  fm.beginTransaction()
-                            .remove(fm.findFragmentById(R.id.content)) // resolves to A_Fragment instance
-                            .add(R.id.frame, fragment, "Home")
-                            .addToBackStack("a")
-                            .commit();
-*/
-
-
-
                 }
             }
 
