@@ -70,6 +70,26 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                 String username = editTextmobile.getText().toString();
+                String password = editTextPassword.getText().toString();
+
+
+
+                if (TextUtils.isEmpty(username)) {
+                    editTextmobile.setError("Please enter your username");
+                    editTextmobile.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    editTextPassword.setError("Please enter your password");
+                    editTextPassword.requestFocus();
+                    return;
+                }
+
+
+
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 String sleepTime = "1";
                 runner.execute(sleepTime);
@@ -97,21 +117,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void userLogin() {
         //first getting the values
-        final String username = editTextmobile.getText().toString();
-        final String password = editTextPassword.getText().toString();
 
         //validating inputs
-        if (TextUtils.isEmpty(username)) {
-            editTextmobile.setError("Please enter your username");
-            editTextmobile.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError("Please enter your password");
-            editTextPassword.requestFocus();
-            return;
-        }
+        String username = editTextmobile.getText().toString();
+        String password = editTextPassword.getText().toString();
 
         //if everything is fine
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_LOGIN,

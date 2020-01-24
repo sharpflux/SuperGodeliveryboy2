@@ -52,7 +52,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         final String mobNo =  etMobileNo.getText().toString();
 
         if (!CommonUtils.isValidPhone(mobNo)) {
-            etMobileNo.setError("Invalid Mobile number");
+            etMobileNo.setError("Please Enter valid Mobile number");
             return;
         }
         //if everything is fine
@@ -69,6 +69,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 Intent in = new Intent(ForgotPasswordActivity.this,OtpActivity.class);
                                 in.putExtra("otp",obj.getString("OTP"));
                                 in.putExtra("UserId",obj.getInt("UserId"));
+                                in.putExtra("MobileNO",mobNo);
                                 startActivity(in);
 
 
@@ -180,4 +181,30 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }*/
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to Exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user pressed "yes", then he is allowed to exit from application
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }

@@ -92,8 +92,22 @@
         android:gravity="center"
         android:text="@string/resendOtp"
         android:textColor="@color/black"
+        android:visibility="gone"
         android:textSize="14dp"
         />
+
+    <TextView
+        android:id="@+id/tv_timerotp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="23"
+        android:textColor="@color/black"
+        android:textSize="14dp" />
+
+
+
 
 
 </LinearLayout>

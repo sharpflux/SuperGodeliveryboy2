@@ -38,7 +38,9 @@
         <activity
             android:name=".ResetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".OtpActivity" />
+        <activity android:name=".OtpActivity"
+
+            android:noHistory="true"/>
       <!--  <activity
             android:name=".CallCustomerActivity"
             android:label="Ongoing Ride Details"

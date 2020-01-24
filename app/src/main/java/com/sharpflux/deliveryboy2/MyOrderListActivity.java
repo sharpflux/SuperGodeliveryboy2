@@ -117,6 +117,7 @@ public class MyOrderListActivity extends AppCompatActivity {
 
                         try {
                             JSONArray obj = new JSONArray(response);
+                            activityListModelArrayList.clear();
                             for (int i = 0; i < obj.length(); i++) {
                                 JSONObject userJson = obj.getJSONObject(i);
 
