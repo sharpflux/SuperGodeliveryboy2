@@ -147,7 +147,7 @@ public class NewRequestFragment extends Fragment {
                         FragmentTransaction transaction = fm.beginTransaction();
                         transaction.detach(fragment);
                         transaction.replace(R.id.frame, fragment);
-                        transaction.addToBackStack(null);
+                        //transaction.addToBackStack(null);
                         transaction.commit();
                     }
                 }

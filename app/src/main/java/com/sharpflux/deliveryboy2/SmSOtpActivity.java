@@ -42,13 +42,14 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
     private int deliveryid;
     private Button btnValidate;
     AlertDialog.Builder builder;
-    String Mobile="",RealCustomerId="";
+    String Mobile="";
     String otp;
     TextView smstonumber;
     private Bundle bundle1;
     TextView txt_resendOtp,tv_timer1;
     MyCountDownTimer1 myCountDownTimer1;
     MyCountDownTimer2 myCountDownTimer2;
+    Integer RealCustomerId=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
 
         bundle1 = getIntent().getExtras();
         if(bundle1!=null){
-            RealCustomerId= bundle1.getString("CustomerId");
+            RealCustomerId= bundle1.getInt("CustomerId");
         }
 
 
@@ -433,10 +434,10 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
 
                                 bundle1 = getIntent().getExtras();
                                 if(bundle1!=null){
-                                    RealCustomerId= bundle1.getString("CustomerId");
+                                    RealCustomerId= bundle1.getInt("CustomerId");
                                 }
 
-                                Notification(RealCustomerId,"Your Parcel Droped Successfully","PARCEL DROPEED");
+                                Notification(String.valueOf(RealCustomerId),"Your Parcel Droped Successfully","PARCEL DROPEED");
                                 Intent intent = new Intent(SmSOtpActivity.this, LocationMonitoringService.class);
                                 stopService(intent);
 
@@ -449,6 +450,7 @@ public class SmSOtpActivity extends AppCompatActivity implements TextWatcher {
                                     public void onClick(View v) {
                                         Intent intent = new Intent(SmSOtpActivity.this,NavActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 });
 

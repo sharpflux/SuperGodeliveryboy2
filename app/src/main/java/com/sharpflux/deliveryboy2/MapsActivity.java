@@ -77,10 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int deliveryid;
     TextView txtEstimateTime, txtDistance, txtPickupLocation, txtDropLocation, cardview_rupees;
     User user;
-    String fromLat = "", fromLong = "", ToLat = "", ToLong = "",RealCustomerId="";
+    String fromLat = "", fromLong = "", ToLat = "", ToLong = "";
     LinearLayout callCustLlyt, arrivedLlyt, cancelLlyt, pickedLlyt, lr_call, lr_drop;
     ImageView navigationIv, navigationDrop;
-
+    Integer RealCustomerId=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 pickedLlyt.setVisibility(View.GONE);
             }
 
-            RealCustomerId=bundle1.getString("CustomerId");
+            RealCustomerId=bundle1.getInt("CustomerId");
         }
 
 
@@ -194,7 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     callin.putExtra("Mobile", bundle1.getString("Mobile"));
                     callin.putExtra("CustomerId", bundle1.getString("CustomerId"));
                     startActivity(callin);
-
+                    finish();
                 }
             }
         });
@@ -316,9 +316,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                                         if(bundle1!=null)
-                                            RealCustomerId=bundle1.getString("CustomerId");
+                                            RealCustomerId=bundle1.getInt("CustomerId");
 
-                                        Notification(RealCustomerId,"Your parcel picked sucessfully !! ","PARCEL PICKED");
+                                        Notification(String.valueOf( RealCustomerId),"Your parcel picked sucessfully !! ","PARCEL PICKED");
                                         AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                                         builder.setCancelable(false);
                                         builder.setTitle("PARCEL");

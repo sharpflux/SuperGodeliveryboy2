@@ -125,7 +125,6 @@
 
         <activity
             android:name=".MapsActivity"
-            android:noHistory="true"
             android:label="Accept Delivery" />
 
         <uses-library

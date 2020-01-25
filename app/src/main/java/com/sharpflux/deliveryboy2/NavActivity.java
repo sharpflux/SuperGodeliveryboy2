@@ -105,7 +105,7 @@ public class NavActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_nav);
         /*FirebaseMessaging.getInstance().subscribeToTopic("weather")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     String subs = "";
@@ -157,7 +157,7 @@ public class NavActivity extends AppCompatActivity
         }*/
 
 
-        setContentView(R.layout.activity_nav);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 

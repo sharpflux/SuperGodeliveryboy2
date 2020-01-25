@@ -36,6 +36,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,6 +104,7 @@ LinearLayout ClickableCheck;
         intentFilter.addAction(ServiceNoDelay.MY_ACTION);*/
         isReceiverRegistered = true;
 
+        GetOngoingDelivery();
 
         myDatabase = new DriverStatus(getContext());
         String res = myDatabase.GetLastStatus();
@@ -303,9 +305,9 @@ LinearLayout ClickableCheck;
                 FragmentManager fm = getFragmentManager();
                 if (fm != null) {
                   FragmentTransaction transaction = fm.beginTransaction();
-                     transaction.detach(fragment);
-                    transaction.replace(R.id.frame, fragment);
-                    transaction.addToBackStack(null);
+                  transaction.detach(fragment);
+                   transaction.replace(R.id.frame, fragment);
+                    //transaction.addToBackStack(null);
                     transaction.commit();
                 }
             }
@@ -607,5 +609,74 @@ LinearLayout ClickableCheck;
         super.onPause();
     }
 
+    private void GetOngoingDelivery() {
+        int deliveryBoyIds=deliveryBoyId;
+        User user = SharedPrefManager.getInstance(getContext()).getUser();
+        deliveryBoyIds = user.getId();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                URLs.URL_GETONGOINGDELIVERY + deliveryBoyId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
 
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject obj = array.getJSONObject(i);
+
+                                Intent intent = new Intent(getContext(), LocationMonitoringService.class);
+                                intent.putExtra("DeliveryId", obj.getInt("DeliveryId"));
+                                getContext().startService(intent);
+
+                                Intent callin = new Intent(getContext(), MapsActivity.class);
+                                callin.putExtra("Duration", obj.getString("Duration"));
+                                callin.putExtra("Distance", obj.getString("Distance"));
+                                callin.putExtra("pickup_location", obj.getString("pickupAddress"));
+                                callin.putExtra("deliveryAddress", obj.getString("deliveryAddress"));
+                                callin.putExtra("TotalCharges", obj.getString("TotalCharges"));
+                                callin.putExtra("Date", obj.getString("pickupDate"));
+                                callin.putExtra("Time", obj.getString("pickuptime"));
+                                callin.putExtra("Mobile", obj.getString("mobile"));
+                                callin.putExtra("CustomerFullName", obj.getString("CustomerFullName"));
+                                callin.putExtra("CustomerId",obj.getString("CustomerId"));
+                                callin.putExtra("DeliveryId", obj.getInt("DeliveryId"));
+                                callin.putExtra("fromLat", obj.getString("fromLat"));
+                                callin.putExtra("fromLong", obj.getString("fromLang"));
+                                callin.putExtra("ToLat", obj.getString("ToLat"));
+                                callin.putExtra("ToLong", obj.getString("ToLong"));
+                                callin.putExtra("DeliveryStatus", obj.getString("DeliveryStatus"));
+                                startActivity(callin);
+                                return;
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("CustomerId", "123");
+                params.put("Password", "password");
+                return params;
+            }
+        };
+        ;
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(getContext()).add(stringRequest);
+
+
+    }
 }
